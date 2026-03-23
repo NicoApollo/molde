@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espaço & Barbearia</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="theme-switcher">
+        <button class="theme-btn theme-pink" onclick="mudarTema('clinic')" title="Clínica Estética"></button>
+        <button class="theme-btn theme-black" onclick="mudarTema('barber')" title="Barbearia"></button>
+    </div>
+
+    <div class="app-container">
+        <div id="auth-view" class="view-section">
+            <div class="auth-box">
+                <h1 class="logo text-center" id="logo-auth">Clínica Estética</h1>
+                
+                <form id="login-form" class="auth-form">
+                    <h3>Entrar</h3>
+                    <input type="email" id="login-email" placeholder="E-mail" required class="modal-input">
+                    <input type="password" id="login-senha" placeholder="Senha" required class="modal-input">
+                    <button type="submit" class="btn btn-primary">Acessar</button>
+                    <p class="switch-auth">Não tem conta? <a href="#" id="link-cadastro">Cadastre-se</a></p>
+                </form>
+
+                <form id="cadastro-form" class="auth-form hidden">
+                    <h3>Criar Conta</h3>
+                    <input type="text" id="cad-nome" placeholder="Seu Nome" required class="modal-input">
+                    <input type="email" id="cad-email" placeholder="E-mail" required class="modal-input">
+                    <input type="password" id="cad-senha" placeholder="Senha" required class="modal-input">
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    <p class="switch-auth">Já tem conta? <a href="#" id="link-login">Faça login</a></p>
+                </form>
+            </div>
+        </div>
+
+        <div id="app-view" class="view-section hidden">
+            <header class="header">
+                <button class="icon-btn" id="btn-logout" title="Sair"><i class="fa-solid fa-right-from-bracket"></i></button>
+                <h1 class="logo" style="font-size: 1.2rem;" id="logo-app">Clínica Estética</h1>
+                <button class="icon-btn"><i class="fa-regular fa-bell"></i></button>
+            </header>
+
+            <div id="tab-inicio" class="tab-content active">
+                <section class="hero">
+                    <div class="welcome-text">
+                        <h2 id="user-greeting">Olá!</h2>
+                        <p id="welcome-desc">Bem-vinda(o) à clínica!</p>
+                    </div>
+                    <div class="profile-pic">
+                        <img src="" id="user-avatar" alt="Avatar">
+                    </div>
+                </section>
+
+                <section class="main-actions">
+                    <button class="btn btn-primary" id="btn-agendar">
+                        <i class="fa-regular fa-calendar-check"></i> <span>Agendar Avaliação</span> <i class="fa-solid fa-chevron-right chevron"></i>
+                    </button>
+                </section>
+
+                <section class="services" id="lista-agendamentos-section" style="display: none;">
+                    <h3>Seus Agendamentos</h3>
+                    <div id="lista-agendamentos"></div>
+                </section>
+
+                <section class="services">
+                    <h3 id="servicos-title">Tratamentos Populares</h3>
+                    <div id="grid-servicos" class="tratamentos-grid"></div>
+                </section>
+            </div>
+
+            <div id="tab-videos" class="tab-content">
+                <section class="services">
+                    <h3 id="videos-title">Conteúdo Educativo</h3>
+                    <p id="videos-desc" style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Dicas de cuidados.</p>
+                    <div id="grid-videos" class="grid-layout"></div>
+                </section>
+            </div>
+
+            <div id="tab-produtos" class="tab-content">
+                <section class="services">
+                    <h3 id="produtos-title">Nossos Produtos</h3>
+                    <p id="produtos-desc" style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Home care recomendado.</p>
+                    <div id="grid-produtos" class="grid-layout"></div>
+                </section>
+            </div>
+
+            <div id="tab-profissionais" class="tab-content">
+                <section class="services">
+                    <h3 id="equipe-title">Corpo Clínico</h3>
+                    <div id="lista-profissionais"></div>
+                </section>
+            </div>
+
+            <nav class="bottom-nav">
+                <button class="nav-btn active" data-target="tab-inicio"><i class="fa-solid fa-house"></i><span>Início</span></button>
+                <button class="nav-btn" data-target="tab-videos"><i class="fa-solid fa-circle-play"></i><span>Vídeos</span></button>
+                <button class="nav-btn" data-target="tab-produtos"><i class="fa-solid fa-bag-shopping"></i><span>Loja</span></button>
+                <button class="nav-btn" data-target="tab-profissionais"><i class="fa-solid fa-user-tie"></i><span>Equipe</span></button>
+            </nav>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-agendamento">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Novo Agendamento</h3>
+                <button class="close-btn" id="btn-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="form-agendamento">
+                <select id="select-servico" class="modal-input" required></select>
+                <input type="date" id="input-data" class="modal-input" required>
+                <select id="select-horario" class="modal-input" required>
+                    <option value="">Selecione o Horário...</option>
+                    <option value="09:00">09:00</option>
+                    <option value="10:30">10:30</option>
+                    <option value="14:00">14:00</option>
+                    <option value="16:30">16:30</option>
+                </select>
+                <button type="submit" class="btn btn-primary confirm-btn">Confirmar Agendamento</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-video">
+        <div class="modal-content" style="max-width: 700px; padding: 20px;">
+            <div class="modal-header" style="margin-bottom: 15px;">
+                <h3 id="video-title">Título do Vídeo</h3>
+                <button class="close-btn" id="btn-close-video"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="video-container">
+                <iframe id="video-frame" width="100%" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
