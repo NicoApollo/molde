@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
 
-/* ================= PALETAS DE CORES (VISUAL) ================= */
-/* 1. Rosa (Padrão) */
+/* ================= PALETAS DE CORES GERAIS E TRANSIÇÕES ================= */
 :root {
+    /* Padrão de Inicialização (Rosa Clínica / Light Pink) */
     --bg-color: #fdf3f6;
     --primary-color: #f7708e;
     --primary-light: #ff8fa9;
@@ -14,44 +14,8 @@
     --body-bg: #fce8f0;
 }
 
-/* 2. Azul */
-body.color-blue {
-    --bg-color: #f3f8fd;
-    --primary-color: #4a90e2;
-    --primary-light: #7bb5f5;
-    --card-bg: #ffffff;
-    --text-dark: #2c3e50;
-    --text-light: #7f8c8d;
-    --shadow: 0 8px 20px rgba(74, 144, 226, 0.15);
-    --body-bg: #e9f2fa;
-}
-
-/* 3. Roxo */
-body.color-purple {
-    --bg-color: #f8f3fd;
-    --primary-color: #9b59b6;
-    --primary-light: #b97dd4;
-    --card-bg: #ffffff;
-    --text-dark: #4a235a;
-    --text-light: #8e44ad;
-    --shadow: 0 8px 20px rgba(155, 89, 182, 0.15);
-    --body-bg: #f0e6f9;
-}
-
-/* 4. Escuro (Dark Mode) */
-body.color-dark {
-    --bg-color: #1a1a1a;
-    --primary-color: #ffffff;
-    --primary-light: #444444;
-    --card-bg: #2d2d2d;
-    --text-dark: #f5f5f5;
-    --text-light: #aaaaaa;
-    --shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-    --body-bg: #111111;
-}
-
-/* Transição suave ao mudar de cor */
-body, .app-container, .btn, .header, .bottom-nav, .modal-content, .modal-input, .service-card, .item-card, .pro-card {
+/* Transição suave ao mudar de cor em todo o app */
+body, .app-container, .btn, .header, .bottom-nav, .modal-content, .modal-input, .service-card, .item-card, .pro-card, .profile-pic img {
     transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
@@ -68,60 +32,154 @@ body {
     display: flex;
     justify-content: center;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 /* ================= UTILITÁRIOS ================= */
 .hidden { display: none !important; }
 .text-center { text-align: center; }
 
-/* ================= SELETOR DE TEMA FLUTUANTE ================= */
+/* ================= SELETOR DE TEMAS FLUTUANTE (PÍLULA MOBILE) ================= */
 .theme-switcher {
     position: fixed;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
+    bottom: 85px; /* Acima do menu inferior */
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 9999;
+    flex-direction: row;
+    gap: 12px;
+    z-index: 90; /* Atrás do modal de vídeo */
+    background: var(--card-bg);
+    padding: 10px 20px;
+    border-radius: 40px;
+    box-shadow: var(--shadow);
 }
 
 .theme-btn {
-    width: 45px;
-    height: 45px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    border: 3px solid #fff;
+    border: 2px solid #fff;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     transition: transform 0.2s;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.theme-btn:hover { transform: scale(1.15); }
-
-.data-btn {
-    background: #fff;
-    color: #555;
-    font-size: 1.2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-color: #ccc;
-}
-.data-btn:hover { background: #eee; }
-
-.divider {
-    width: 30px;
-    height: 2px;
-    background: rgba(0,0,0,0.2);
-    margin: 5px auto;
-    border-radius: 2px;
+.theme-btn:hover { 
+    transform: scale(1.15); 
 }
 
-/* Bolinhas de Cor */
-.color-pink { background: linear-gradient(135deg, #ff8fa9, #f7708e); }
-.color-blue { background: linear-gradient(135deg, #7bb5f5, #4a90e2); }
-.color-purple { background: linear-gradient(135deg, #b97dd4, #9b59b6); }
-.color-dark { background: linear-gradient(135deg, #555, #000); border-color: #444; }
+/* ========================================================
+   PALETAS DE CORES ESPECÍFICAS (Salão de Beleza / Clínica)
+   ======================================================== */
+
+/* Dourado */
+body.color-gold {
+    --bg-color: #fffaf0;
+    --primary-color: #d4af37;
+    --primary-light: #f3e5ab;
+    --text-dark: #5c4033;
+    --text-light: #8b7355;
+    --body-bg: #fdf5e6;
+    --shadow: 0 8px 20px rgba(212, 175, 55, 0.15);
+}
+
+/* Bege */
+body.color-beige {
+    --bg-color: #fdfaf5;
+    --primary-color: #dcbfa6;
+    --primary-light: #f5ebe0;
+    --text-dark: #705c4c;
+    --text-light: #a49da3;
+    --body-bg: #fcf6ef;
+    --shadow: 0 8px 20px rgba(220, 191, 166, 0.15);
+}
+
+/* Verde Água */
+body.color-aqua {
+    --bg-color: #f0fbf9;
+    --primary-color: #48d1cc;
+    --primary-light: #afeeee;
+    --text-dark: #2f4f4f;
+    --text-light: #5f9ea0;
+    --body-bg: #e0f7f5;
+    --shadow: 0 8px 20px rgba(72, 209, 204, 0.15);
+}
+
+/* Roxinho Claro */
+body.color-light-purple {
+    --bg-color: #f8f3fd;
+    --primary-color: #b39ddb;
+    --primary-light: #d1c4e9;
+    --text-dark: #4a235a;
+    --text-light: #8e44ad;
+    --body-bg: #f3e8fa;
+    --shadow: 0 8px 20px rgba(179, 157, 219, 0.15);
+}
+
+/* Azul Clarinho */
+body.color-light-blue {
+    --bg-color: #f0f8ff;
+    --primary-color: #87cefa;
+    --primary-light: #b0e0e6;
+    --text-dark: #104e8b;
+    --text-light: #4682b4;
+    --body-bg: #e6f2ff;
+    --shadow: 0 8px 20px rgba(135, 206, 250, 0.15);
+}
+
+/* --- BARBEARIA / TATTOO (Modos Escuros) --- */
+body.color-dark {
+    --bg-color: #1a1a1a;
+    --primary-color: #ffffff;
+    --primary-light: #444444;
+    --card-bg: #2d2d2d;
+    --text-dark: #f5f5f5;
+    --text-light: #aaaaaa;
+    --shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    --body-bg: #111111;
+}
+
+body.color-purple {
+    --bg-color: #fdf3fc;
+    --primary-color: #9b59b6;
+    --primary-light: #b97dd4;
+    --card-bg: #ffffff;
+    --text-dark: #6e3549;
+    --text-light: #a36f81;
+    --shadow: 0 8px 20px rgba(155, 89, 182, 0.15);
+    --body-bg: #fce8f8;
+}
+
+/* ========================================================
+   AJUSTES GERAIS DE COMPORTAMENTO EM MODOS ESCUROS
+   ======================================================== */
+   
+body.color-dark .btn-primary, body.color-purple .btn-primary { 
+    background: linear-gradient(to right, var(--primary-light), var(--primary-color)); 
+    color: #fff; 
+    border: 1px solid var(--primary-light); 
+}
+
+body.color-dark .modal-input, body.color-purple .modal-input { 
+    background-color: rgba(255,255,255,0.05); 
+    border-color: rgba(255,255,255,0.2); 
+    color: white;
+}
+
+body.color-dark .header, body.color-purple .header { 
+    background: linear-gradient(135deg, var(--card-bg), var(--primary-color)); 
+}
+
+body.color-dark .bottom-nav button span, body.color-purple .bottom-nav button span { color: rgba(255,255,255,0.7); }
+body.color-dark .bottom-nav button, body.color-purple .bottom-nav button { color: rgba(255,255,255,0.7); }
+
+body.color-dark .bottom-nav button.active span, body.color-purple .bottom-nav button.active span,
+body.color-dark .bottom-nav button.active, body.color-dark .bottom-nav button:hover, body.color-purple .bottom-nav button.active, body.color-purple .bottom-nav button.active { 
+    color: white; 
+}
+
+body.color-dark .service-info strong, body.color-purple .service-info strong { color: white; }
 
 /* ================= CONTAINER PRINCIPAL ================= */
 .app-container {
@@ -130,16 +188,9 @@ body {
     max-width: 500px;
     min-height: 100vh;
     position: relative;
-    padding-bottom: 80px;
+    padding-bottom: 130px; /* Aumentado para o conteúdo rolar livremente até o fim */
     box-shadow: 0 0 30px rgba(0,0,0,0.05);
 }
-
-/* Ajustes específicos do Modo Escuro (Dark Mode) */
-body.color-dark .btn-primary { background: linear-gradient(to right, #333, #000); color: #fff; border: 1px solid #444; }
-body.color-dark .bottom-nav button { color: #666; }
-body.color-dark .bottom-nav button.active, body.color-dark .bottom-nav button:hover { color: var(--primary-color); }
-body.color-dark .header { background: linear-gradient(135deg, #333, #111); }
-body.color-dark .modal-input { background-color: #222; border-color: #444; color: #fff; }
 
 /* ================= TELA DE AUTENTICAÇÃO ================= */
 .view-section {
@@ -322,14 +373,15 @@ body.color-dark .modal-input { background-color: #222; border-color: #444; color
 }
 
 .bottom-nav {
-    position: absolute;
+    position: fixed; /* MUDANÇA PRINCIPAL: De absolute para fixed */
     bottom: 0;
     width: 100%;
+    max-width: 500px; /* Mantém o menu alinhado com a largura do app */
     background-color: var(--card-bg);
     display: flex;
     justify-content: space-around;
     padding: 15px 0;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.03);
+    box-shadow: 0 -10px 20px rgba(0,0,0,0.05); /* Sombra no topo para dar destaque */
     z-index: 100;
 }
 
@@ -527,8 +579,9 @@ body.color-dark .modal-overlay { background-color: rgba(0, 0, 0, 0.8); }
         transform: translateX(5px);
     }
     
+    /* Hover/Active para os modos escuros no menu lateral do desktop */
     body.color-dark .bottom-nav button.active, body.color-dark .bottom-nav button:hover { 
-        background-color: #333; 
+        background-color: rgba(255,255,255,0.1); 
         color: white; 
     }
 
@@ -547,4 +600,76 @@ body.color-dark .modal-overlay { background-color: rgba(0, 0, 0, 0.8); }
     .service-card { margin-bottom: 0; }
     .grid-layout { grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .item-card img { height: 160px; }
+    
+    /* Reposiciona a "pílula" de cores para o lado direito no desktop */
+    .theme-switcher {
+        top: 50%;
+        bottom: auto;
+        left: auto;
+        right: 20px;
+        transform: translateY(-50%);
+        flex-direction: column;
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .theme-btn {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #fff;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+}
+
+/* ================= TOOLTIPS (BALÃO EXPLICATIVO AZUL) ================= */
+[data-tooltip] {
+    position: relative;
+    cursor: help;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%; /* Faz o balão aparecer acima do botão */
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background-color: #007bff; /* Azul clássico e moderno */
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 10000;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+    pointer-events: none; /* Garante que o balão não atrapalhe o clique */
+}
+
+/* Triângulo virado para baixo criando a ponta do balão */
+[data-tooltip]::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #007bff transparent transparent transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+/* Animação ao passar o mouse */
+[data-tooltip]:hover::after,
+[data-tooltip]:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
 }
