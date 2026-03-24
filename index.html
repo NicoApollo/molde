@@ -44,9 +44,9 @@
 
         <div id="app-view" class="view-section hidden">
             <header class="header">
-                <button class="icon-btn" id="btn-logout" data-tooltip="Sair da conta"><i class="fa-solid fa-right-from-bracket"></i></button>
+                <button class="icon-btn" id="btn-logout" data-tooltip="Sair da sua conta"><i class="fa-solid fa-right-from-bracket"></i></button>
                 <h1 class="logo" style="font-size: 1.2rem;">Studio Beauty</h1>
-                <button class="icon-btn" data-tooltip="Ver notificações"><i class="fa-regular fa-bell"></i></button>
+                <button class="icon-btn" data-tooltip="Ver suas notificações"><i class="fa-regular fa-bell"></i></button>
             </header>
 
             <div id="tab-inicio" class="tab-content active">
@@ -61,7 +61,7 @@
                 </section>
 
                 <section class="main-actions">
-                    <button class="btn btn-primary" id="btn-agendar" data-tooltip="Agendar um novo horário">
+                    <button class="btn btn-primary" id="btn-agendar" data-tooltip="Clique aqui para marcar um horário no salão">
                         <i class="fa-regular fa-calendar-check"></i> <span>Agendar Horário</span> <i class="fa-solid fa-chevron-right chevron"></i>
                     </button>
                 </section>
@@ -73,7 +73,6 @@
 
                 <section class="services">
                     <h3>Serviços Populares</h3>
-                    
                     <div class="tratamentos-grid">
                         <div class="service-card">
                             <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=100&h=100&fit=crop" alt="Corte Feminino">
@@ -161,6 +160,23 @@
                             <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=200&h=200&fit=crop" alt="Esmaltes Hipoalergênicos">
                             <div class="item-card-body"><h4>Kit Esmaltes Gel</h4><p>R$ 45,00</p></div>
                         </div>
+                        
+                        <div class="item-card">
+                            <img src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=200&h=200&fit=crop" alt="Shampoo Reconstrutor">
+                            <div class="item-card-body"><h4>Shampoo Reconstrutor</h4><p>R$ 89,90</p></div>
+                        </div>
+                        <div class="item-card">
+                            <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=200&h=200&fit=crop" alt="Leave-in Térmico">
+                            <div class="item-card-body"><h4>Leave-in Térmico</h4><p>R$ 65,00</p></div>
+                        </div>
+                        <div class="item-card">
+                            <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=200&h=200&fit=crop" alt="Sérum Iluminador">
+                            <div class="item-card-body"><h4>Sérum Iluminador</h4><p>R$ 120,00</p></div>
+                        </div>
+                        <div class="item-card">
+                            <img src="https://images.unsplash.com/photo-1598214470830-a8a25c6f6629?w=200&h=200&fit=crop" alt="Kit Cronograma Capilar">
+                            <div class="item-card-body"><h4>Kit Cronograma</h4><p>R$ 250,00</p></div>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -168,8 +184,10 @@
             <div id="tab-profissionais" class="tab-content">
                 <section class="services">
                     <h3>Nossos Especialistas</h3>
-                    <div id="lista-profissionais">
-                        </div>
+                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Conheça nossa equipe de talentos.</p>
+                    
+                    <div id="lista-profissionais"></div>
+                    
                 </section>
             </div>
 
@@ -178,7 +196,7 @@
                     <h3>Painel Administrativo</h3>
                     <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Gerencie todos os agendamentos do sistema.</p>
                     
-                    <button class="btn btn-primary" id="btn-agendar-admin" style="margin-bottom: 20px; background: #333; color: white;" data-tooltip="Agendar horário manual no balcão">
+                    <button class="btn btn-primary" id="btn-agendar-admin" style="margin-bottom: 20px; background: #333; color: white; border-color: #333;" data-tooltip="Agendar horário manual no balcão">
                         <i class="fa-solid fa-plus"></i> Agendar para Cliente
                     </button>
 
@@ -202,13 +220,12 @@
                                 <label><input type="checkbox" name="pro-service" value="Design de Sobrancelhas"> Sobrancelhas</label>
                             </div>
                             
-                            <button type="submit" class="btn btn-primary" style="padding: 12px; margin-top: 10px;">Cadastrar na Equipe</button>
+                            <button type="submit" class="btn btn-primary" style="padding: 12px; margin-top: 10px; background: #333; border-color:#333;">Cadastrar na Equipe</button>
                         </form>
 
                         <div id="lista-admin-equipe">
                             </div>
                     </div>
-
                 </section>
             </div>
 
@@ -228,9 +245,12 @@
                 <h3 id="modal-agendamento-titulo">Novo Horário</h3>
                 <button class="close-btn" id="btn-close"><i class="fa-solid fa-xmark"></i></button>
             </div>
+            
             <form id="form-agendamento">
                 
-                <input type="text" id="input-cliente-nome" class="modal-input hidden" placeholder="Nome do Cliente (Balcão)">
+                <input type="text" id="input-cliente-nome" class="modal-input" placeholder="Nome Completo" required>
+                
+                <input type="tel" id="input-telefone" class="modal-input" placeholder="Seu Telefone / WhatsApp" required>
 
                 <select id="select-servico" class="modal-input" required>
                     <option value="">1. Selecione o Serviço...</option>
