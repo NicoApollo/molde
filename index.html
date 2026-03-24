@@ -3,15 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espaço & Barbearia</title>
+    <title>Plataforma Multitenant</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
     <div class="theme-switcher">
-        <button class="theme-btn theme-pink" onclick="mudarTema('clinic')" title="Clínica Estética"></button>
-        <button class="theme-btn theme-black" onclick="mudarTema('barber')" title="Barbearia"></button>
+        <button class="theme-btn data-btn" onclick="mudarDados('clinic')" title="Clínica Estética"><i class="fa-solid fa-spa"></i></button>
+        <button class="theme-btn data-btn" onclick="mudarDados('barber')" title="Barbearia"><i class="fa-solid fa-scissors"></i></button>
+        <button class="theme-btn data-btn" onclick="mudarDados('tattoo')" title="Estúdio de Tattoo"><i class="fa-solid fa-pen-nib"></i></button>
+        
+        <div class="divider"></div>
+        
+        <button class="theme-btn color-pink" onclick="mudarCor('pink')" title="Tema Rosa"></button>
+        <button class="theme-btn color-blue" onclick="mudarCor('blue')" title="Tema Azul"></button>
+        <button class="theme-btn color-purple" onclick="mudarCor('purple')" title="Tema Roxo"></button>
+        <button class="theme-btn color-dark" onclick="mudarCor('dark')" title="Tema Escuro"></button>
     </div>
 
     <div class="app-container">

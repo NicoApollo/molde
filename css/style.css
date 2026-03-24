@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
 
-/* ================= TEMAS (CLÍNICA E BARBEARIA) ================= */
+/* ================= PALETAS DE CORES (VISUAL) ================= */
+/* 1. Rosa (Padrão) */
 :root {
     --bg-color: #fdf3f6;
-    --primary-pink: #f7708e;
+    --primary-color: #f7708e;
     --primary-light: #ff8fa9;
     --card-bg: #ffffff;
     --text-dark: #6e3549;
@@ -13,9 +14,34 @@
     --body-bg: #fce8f0;
 }
 
-body.theme-barber {
+/* 2. Azul */
+body.color-blue {
+    --bg-color: #f3f8fd;
+    --primary-color: #4a90e2;
+    --primary-light: #7bb5f5;
+    --card-bg: #ffffff;
+    --text-dark: #2c3e50;
+    --text-light: #7f8c8d;
+    --shadow: 0 8px 20px rgba(74, 144, 226, 0.15);
+    --body-bg: #e9f2fa;
+}
+
+/* 3. Roxo */
+body.color-purple {
+    --bg-color: #f8f3fd;
+    --primary-color: #9b59b6;
+    --primary-light: #b97dd4;
+    --card-bg: #ffffff;
+    --text-dark: #4a235a;
+    --text-light: #8e44ad;
+    --shadow: 0 8px 20px rgba(155, 89, 182, 0.15);
+    --body-bg: #f0e6f9;
+}
+
+/* 4. Escuro (Dark Mode) */
+body.color-dark {
     --bg-color: #1a1a1a;
-    --primary-pink: #ffffff;
+    --primary-color: #ffffff;
     --primary-light: #444444;
     --card-bg: #2d2d2d;
     --text-dark: #f5f5f5;
@@ -24,7 +50,7 @@ body.theme-barber {
     --body-bg: #111111;
 }
 
-/* Transição suave ao mudar de tema */
+/* Transição suave ao mudar de cor */
 body, .app-container, .btn, .header, .bottom-nav, .modal-content, .modal-input, .service-card, .item-card, .pro-card {
     transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
 }
@@ -56,7 +82,7 @@ body {
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     z-index: 9999;
 }
 
@@ -71,8 +97,31 @@ body {
 }
 
 .theme-btn:hover { transform: scale(1.15); }
-.theme-pink { background: linear-gradient(135deg, #ff8fa9, #f7708e); }
-.theme-black { background: linear-gradient(135deg, #555, #000); border-color: #444; }
+
+.data-btn {
+    background: #fff;
+    color: #555;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-color: #ccc;
+}
+.data-btn:hover { background: #eee; }
+
+.divider {
+    width: 30px;
+    height: 2px;
+    background: rgba(0,0,0,0.2);
+    margin: 5px auto;
+    border-radius: 2px;
+}
+
+/* Bolinhas de Cor */
+.color-pink { background: linear-gradient(135deg, #ff8fa9, #f7708e); }
+.color-blue { background: linear-gradient(135deg, #7bb5f5, #4a90e2); }
+.color-purple { background: linear-gradient(135deg, #b97dd4, #9b59b6); }
+.color-dark { background: linear-gradient(135deg, #555, #000); border-color: #444; }
 
 /* ================= CONTAINER PRINCIPAL ================= */
 .app-container {
@@ -85,12 +134,12 @@ body {
     box-shadow: 0 0 30px rgba(0,0,0,0.05);
 }
 
-/* Ajustes específicos do Modo Escuro (Mobile + Geral) */
-body.theme-barber .btn-primary { background: linear-gradient(to right, #333, #000); color: #fff; border: 1px solid #444; }
-body.theme-barber .bottom-nav button { color: #666; }
-body.theme-barber .bottom-nav button.active, body.theme-barber .bottom-nav button:hover { color: var(--primary-pink); }
-body.theme-barber .header { background: linear-gradient(135deg, #333, #111); }
-body.theme-barber .modal-input { background-color: #222; border-color: #444; color: #fff; }
+/* Ajustes específicos do Modo Escuro (Dark Mode) */
+body.color-dark .btn-primary { background: linear-gradient(to right, #333, #000); color: #fff; border: 1px solid #444; }
+body.color-dark .bottom-nav button { color: #666; }
+body.color-dark .bottom-nav button.active, body.color-dark .bottom-nav button:hover { color: var(--primary-color); }
+body.color-dark .header { background: linear-gradient(135deg, #333, #111); }
+body.color-dark .modal-input { background-color: #222; border-color: #444; color: #fff; }
 
 /* ================= TELA DE AUTENTICAÇÃO ================= */
 .view-section {
@@ -118,7 +167,7 @@ body.theme-barber .modal-input { background-color: #222; border-color: #444; col
 }
 
 .auth-box .logo {
-    color: var(--primary-pink);
+    color: var(--primary-color);
     font-size: 2rem;
     margin-bottom: 30px;
 }
@@ -145,7 +194,7 @@ body.theme-barber .modal-input { background-color: #222; border-color: #444; col
 }
 
 .switch-auth a {
-    color: var(--primary-pink);
+    color: var(--primary-color);
     font-weight: 700;
     text-decoration: none;
     transition: color 0.3s;
@@ -157,7 +206,7 @@ body.theme-barber .modal-input { background-color: #222; border-color: #444; col
     justify-content: space-between;
     align-items: center;
     padding: 25px 20px;
-    background: linear-gradient(135deg, var(--primary-light), var(--primary-pink));
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
     color: white;
     border-radius: 0 0 30px 30px;
     margin-bottom: -20px;
@@ -222,8 +271,8 @@ body.theme-barber .modal-input { background-color: #222; border-color: #444; col
 
 .btn i:first-child { margin-right: 15px; font-size: 1.3rem; }
 .chevron { margin-left: auto; font-size: 1rem; }
-.btn-primary { background: linear-gradient(to right, var(--primary-light), var(--primary-pink)); color: white; }
-.btn-secondary { background-color: var(--card-bg); color: var(--primary-pink); }
+.btn-primary { background: linear-gradient(to right, var(--primary-light), var(--primary-color)); color: white; }
+.btn-secondary { background-color: var(--card-bg); color: var(--primary-color); }
 
 .services { padding: 0 25px 25px 25px; }
 .services h3 { font-size: 1.1rem; color: var(--text-dark); margin-bottom: 15px; }
@@ -257,7 +306,7 @@ body.theme-barber .modal-input { background-color: #222; border-color: #444; col
 .service-info { flex: 1; }
 .service-info h4 { font-size: 1rem; margin-bottom: 5px; }
 .service-info p { font-size: 0.85rem; color: var(--text-light); }
-.service-info strong { color: var(--primary-pink); font-size: 1rem; }
+.service-info strong { color: var(--primary-color); font-size: 1rem; }
 
 /* ================= NAVEGAÇÃO INFERIOR E ABAS ================= */
 .tab-content {
@@ -298,7 +347,7 @@ body.theme-barber .modal-input { background-color: #222; border-color: #444; col
 }
 
 .bottom-nav button span { font-size: 0.65rem; font-weight: 700; }
-.bottom-nav button.active, .bottom-nav button:hover { color: var(--primary-pink); }
+.bottom-nav button.active, .bottom-nav button:hover { color: var(--primary-color); }
 
 /* ================= GRIDS DE PRODUTOS/VÍDEOS E PROFISSIONAIS ================= */
 .grid-layout {
@@ -320,13 +369,13 @@ body.theme-barber .modal-input { background-color: #222; border-color: #444; col
 
 .item-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(247, 112, 142, 0.2);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
 }
 
 .item-card img { width: 100%; height: 120px; object-fit: cover; }
 .item-card-body { padding: 10px; }
 .item-card-body h4 { font-size: 0.85rem; margin-bottom: 5px; color: var(--text-dark); }
-.item-card-body p { font-size: 0.8rem; color: var(--primary-pink); font-weight: bold; }
+.item-card-body p { font-size: 0.8rem; color: var(--primary-color); font-weight: bold; }
 
 .pro-card {
     display: flex;
@@ -350,17 +399,17 @@ body.theme-barber .modal-input { background-color: #222; border-color: #444; col
 .pro-info h4 { margin-bottom: 3px; font-size: 1rem; }
 .pro-info p { font-size: 0.85rem; color: var(--text-light); }
 
-/* ================= MODAL DE AGENDAMENTO ================= */
+/* ================= MODAIS ================= */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(110, 53, 73, 0.5);
+    background-color: rgba(0,0,0,0.6);
     display: flex; justify-content: center; align-items: center;
     opacity: 0; visibility: hidden;
-    transition: opacity 0.3s, visibility 0.3s;
+    transition: opacity 0.3s;
     z-index: 1000;
 }
 
-body.theme-barber .modal-overlay { background-color: rgba(0, 0, 0, 0.8); }
+body.color-dark .modal-overlay { background-color: rgba(0, 0, 0, 0.8); }
 
 .modal-overlay.active { opacity: 1; visibility: visible; }
 
@@ -380,8 +429,8 @@ body.theme-barber .modal-overlay { background-color: rgba(0, 0, 0, 0.8); }
 
 .modal-input {
     width: 100%; padding: 15px; border-radius: 15px;
-    border: 1px solid #f0d0db; margin: 15px 0;
-    font-family: inherit; color: var(--text-dark); background: white;
+    border: 1px solid #ccc; margin: 15px 0;
+    font-family: inherit; color: var(--text-dark); background: transparent;
 }
 
 /* ================= MODAL DE VÍDEO ================= */
@@ -433,12 +482,12 @@ body.theme-barber .modal-overlay { background-color: rgba(0, 0, 0, 0.8); }
         border-radius: 0;
     }
 
-    body.theme-barber .header { background: none !important; }
+    body.color-dark .header { background: none !important; }
 
-    .header .logo { color: var(--primary-pink); font-size: 1.8rem !important; }
+    .header .logo { color: var(--primary-color); font-size: 1.8rem !important; }
     
     .header .icon-btn { background: white; color: var(--text-dark); box-shadow: var(--shadow); }
-    body.theme-barber .header .icon-btn { background: var(--card-bg); color: var(--text-dark); }
+    body.color-dark .header .icon-btn { background: var(--card-bg); color: var(--text-dark); }
     
     .header .icon-btn:hover { background: var(--primary-light); color: white; }
 
@@ -454,12 +503,12 @@ body.theme-barber .modal-overlay { background-color: rgba(0, 0, 0, 0.8); }
         flex-direction: column;
         justify-content: flex-start;
         padding: 40px 20px;
-        border-right: 1px solid #f0d0db;
+        border-right: 1px solid rgba(0,0,0,0.1);
         border-radius: 30px 0 0 30px;
         box-shadow: none;
     }
     
-    body.theme-barber .bottom-nav { border-right: 1px solid var(--text-light); }
+    body.color-dark .bottom-nav { border-right: 1px solid var(--text-light); }
 
     .bottom-nav button {
         flex-direction: row;
@@ -473,16 +522,16 @@ body.theme-barber .modal-overlay { background-color: rgba(0, 0, 0, 0.8); }
     .bottom-nav button span { margin-left: 15px; font-size: 1rem; }
     
     .bottom-nav button.active, .bottom-nav button:hover {
-        background-color: var(--primary-pink); 
+        background-color: var(--primary-color); 
         color: white;
         transform: translateX(5px);
     }
     
-    body.theme-barber .bottom-nav button.active, body.theme-barber .bottom-nav button:hover { 
+    body.color-dark .bottom-nav button.active, body.color-dark .bottom-nav button:hover { 
         background-color: #333; 
         color: white; 
     }
-    
+
     .hero { padding: 0; margin-bottom: 40px; }
     .main-actions { padding: 0; flex-direction: row; margin-bottom: 40px; gap: 20px; }
     .btn { width: auto; flex: 1; padding: 15px 30px; }
