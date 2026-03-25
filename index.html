@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barbearia Navalha & Estilo</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Salão de Beleza & Spa</title>
+    <link rel="stylesheet" href="css/style.css?v=1.0.3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="color-dark">
+<body class="color-beige">
 
     <div class="theme-switcher">
-        <button class="theme-btn" style="background: linear-gradient(135deg, #444, #1a1a1a);" onclick="mudarCor('dark')" data-tooltip="Cor: Dark"></button>
-        <button class="theme-btn" style="background: linear-gradient(135deg, #0284c7, #0f172a);" onclick="mudarCor('navy')" data-tooltip="Cor: Barber Blue"></button>
-        <button class="theme-btn" style="background: linear-gradient(135deg, #166534, #052e16);" onclick="mudarCor('forest')" data-tooltip="Cor: Forest Green"></button>
-        <button class="theme-btn" style="background: linear-gradient(135deg, #9f1239, #2d0611);" onclick="mudarCor('wine')" data-tooltip="Cor: Red Wine"></button>
-        <button class="theme-btn" style="background: linear-gradient(135deg, #854d0e, #1c1917);" onclick="mudarCor('wood')" data-tooltip="Cor: Vintage Wood"></button>
-        <button class="theme-btn" style="background: linear-gradient(135deg, #fbbf24, #111111);" onclick="mudarCor('gold-black')" data-tooltip="Cor: Gold & Black"></button>
+        <button class="theme-btn" style="background: linear-gradient(135deg, #ff8fa9, #f7708e);" onclick="mudarCor('light-pink')" data-tooltip="Cor: Rosa Claro"></button>
+        <button class="theme-btn" style="background: linear-gradient(135deg, #f3e5ab, #d4af37);" onclick="mudarCor('gold')" data-tooltip="Cor: Dourado"></button>
+        <button class="theme-btn" style="background: linear-gradient(135deg, #f5ebe0, #dcbfa6);" onclick="mudarCor('beige')" data-tooltip="Cor: Bege"></button>
+        <button class="theme-btn" style="background: linear-gradient(135deg, #afeeee, #48d1cc);" onclick="mudarCor('aqua')" data-tooltip="Cor: Verde Água"></button>
+        <button class="theme-btn" style="background: linear-gradient(135deg, #d1c4e9, #b39ddb);" onclick="mudarCor('light-purple')" data-tooltip="Cor: Roxinho Claro"></button>
+        <button class="theme-btn" style="background: linear-gradient(135deg, #b0e0e6, #87cefa);" onclick="mudarCor('light-blue')" data-tooltip="Cor: Azul Clarinho"></button>
     </div>
 
     <div class="app-container">
         <div id="auth-view" class="view-section">
             <div class="auth-box">
-                <h1 class="logo text-center">Navalha & Estilo</h1>
+                <h1 class="logo text-center">Studio Beauty</h1>
                 <form id="login-form" class="auth-form">
                     <h3>Entrar</h3>
                     <input type="email" id="login-email" placeholder="E-mail" required class="modal-input">
@@ -46,14 +46,14 @@
                 <button class="icon-btn" id="btn-logout" data-tooltip="Sair da sua conta"><i class="fa-solid fa-right-from-bracket"></i></button>
                 
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                    <h1 class="logo" style="font-size: 1.3rem; margin-bottom: 2px;">Navalha & Estilo</h1>
+                    <h1 class="logo" style="font-size: 1.3rem; margin-bottom: 2px;">Studio Beauty</h1>
                     <div class="top-rating" data-tooltip="Média de 4.9 baseada em avaliações reais" style="margin-bottom: 0; cursor: pointer;">
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star-half-stroke"></i>
-                        <span style="color: inherit; font-size: 0.8rem; margin-left: 4px;">4.9 (215)</span>
+                        <span style="color: inherit; font-size: 0.8rem; margin-left: 4px;">4.9 (128)</span>
                     </div>
                 </div>
 
@@ -63,81 +63,98 @@
             <div id="tab-inicio" class="tab-content active">
                 <section class="hero">
                     <div class="welcome-text">
-                        <h2 id="user-greeting">Fala, Chefe!</h2>
-                        <p>Pronto para dar aquele talento no visual?</p>
+                        <h2 id="user-greeting">Olá!</h2>
+                        <p>Pronta para renovar o visual?</p>
                     </div>
                     <div class="profile-pic">
-                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop" id="user-avatar" alt="Avatar">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop" id="user-avatar" alt="Avatar" data-tooltip="Sua foto de perfil">
                     </div>
                 </section>
 
                 <section class="main-actions">
-                    <button class="btn btn-primary" id="btn-agendar" data-tooltip="Clique aqui para marcar um horário na barbearia">
+                    <button class="btn btn-primary" id="btn-agendar" data-tooltip="Clique aqui para marcar um horário no salão">
                         <i class="fa-regular fa-calendar-check"></i> <span>Agendar Horário</span> <i class="fa-solid fa-chevron-right chevron"></i>
                     </button>
                 </section>
 
                 <section class="services" id="lista-agendamentos-section" style="display: none;">
-                    <h3>Seus Cortes Agendados</h3>
+                    <h3>Seus Agendamentos</h3>
                     <div id="lista-agendamentos"></div>
                 </section>
 
                 <section class="services">
-                    <h3>Serviços de Responsa</h3>
-                    <div class="tratamentos-grid">
-                        <div class="service-card"><img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=100&h=100&fit=crop" alt="Corte Degradê"><div class="service-info"><h4>Corte Degradê / Social</h4><p>Lavagem e finalização com pomada</p></div></div>
-                        <div class="service-card"><img src="https://images.unsplash.com/photo-1532710093739-9470acff878b?w=100&h=100&fit=crop" alt="Barba Terapia"><div class="service-info"><h4>Barba Terapia</h4><p>Toalha quente, balm e navalha</p></div></div>
-                        <div class="service-card"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=100&h=100&fit=crop" alt="Combo"><div class="service-info"><h4>Combo: Cabelo + Barba</h4><p>O pacote completo pro fim de semana</p></div></div>
-                        <div class="service-card"><img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=100&h=100&fit=crop" alt="Sobrancelha"><div class="service-info"><h4>Sobrancelha na Navalha</h4><p>Alinhamento perfeito</p></div></div>
-                        <div class="service-card"><img src="https://images.unsplash.com/photo-1519014816548-bf5fe059e98b?w=100&h=100&fit=crop" alt="Pigmentação"><div class="service-info"><h4>Pigmentação de Barba</h4><p>Cobre falhas e fios brancos</p></div></div>
-                        <div class="service-card"><img src="https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?w=100&h=100&fit=crop" alt="Platinado"><div class="service-info"><h4>Luzes / Platinado</h4><p>Mude o estilo radicalmente</p></div></div>
-                    </div>
+                    <h3>Serviços Populares</h3>
+                    <div id="lista-servicos-inicio" class="tratamentos-grid"></div>
                 </section>
 
                 <section class="services">
-                    <h3>A voz da galera</h3>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">O que nossos clientes dizem.</p>
+                    <h3>O que dizem sobre nós</h3>
+                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">A opinião de quem já passou por aqui.</p>
                     
                     <div class="reviews-carousel">
                         <div class="review-card">
                             <div class="review-header">
-                                <img src="https://ui-avatars.com/api/?name=Lucas+M.&background=random&color=fff" alt="Lucas M.">
+                                <img src="https://ui-avatars.com/api/?name=Ana+Paula&background=ff8fa9&color=fff" alt="Ana Paula">
                                 <div>
-                                    <h4>Lucas M.</h4>
-                                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                    <h4>Ana Paula</h4>
+                                    <div class="stars">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
-                            <p>"O degradê do Rafael é absurdo! Melhor barbearia da região, atendimento nota 10, cerveja gelada e resenha boa."</p>
+                            <p>"Adorei o atendimento! A Mariana é uma excelente profissional, meu cabelo ficou perfeito. O ambiente é lindo e muito acolhedor."</p>
                         </div>
+
                         <div class="review-card">
                             <div class="review-header">
-                                <img src="https://ui-avatars.com/api/?name=Pedro+Gomes&background=random&color=fff" alt="Pedro Gomes">
+                                <img src="https://ui-avatars.com/api/?name=Beatriz+S.&background=d4af37&color=fff" alt="Beatriz S.">
                                 <div>
-                                    <h4>Pedro Gomes</h4>
-                                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                    <h4>Beatriz S.</h4>
+                                    <div class="stars">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
-                            <p>"Fiz a Barba Terapia pela primeira vez. A toalha quente relaxa demais e a linha da barba ficou impecável."</p>
+                            <p>"O melhor salão da cidade! Fiz a unha com a Carla e durou horrores. Achei muito fácil agendar pelo aplicativo, muito prático."</p>
                         </div>
+
                         <div class="review-card">
                             <div class="review-header">
-                                <img src="https://ui-avatars.com/api/?name=Thiago+S.&background=random&color=fff" alt="Thiago S.">
+                                <img src="https://ui-avatars.com/api/?name=Fernanda+Costa&background=48d1cc&color=fff" alt="Fernanda Costa">
                                 <div>
-                                    <h4>Thiago S.</h4>
-                                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+                                    <h4>Fernanda Costa</h4>
+                                    <div class="stars">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                                    </div>
                                 </div>
                             </div>
-                            <p>"Agendar pelo app salvou minha vida. Chego no meu horário, sem fila. O Diego manda muito bem na tesoura."</p>
+                            <p>"Fiz maquiagem para o meu casamento com a Julia e ficou impecável, durou a festa inteira intacta! Recomendo de olhos fechados."</p>
                         </div>
+
                         <div class="review-card">
                             <div class="review-header">
-                                <img src="https://ui-avatars.com/api/?name=Marcos+V.&background=random&color=fff" alt="Marcos V.">
+                                <img src="https://ui-avatars.com/api/?name=Camila+Pires&background=b39ddb&color=fff" alt="Camila Pires">
                                 <div>
-                                    <h4>Marcos V.</h4>
-                                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                    <h4>Camila Pires</h4>
+                                    <div class="stars">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
-                            <p>"Sempre faço o Combo Cabelo + Barba. Os caras são rápidos, não enrolam e o resultado é garantido."</p>
+                            <p>"Amei o corte! Mostrei uma foto de referência e a Mariana acertou em cheio no que eu queria. Já virei cliente fixa do salão."</p>
+                        </div>
+
+                        <div class="review-card">
+                            <div class="review-header">
+                                <img src="https://ui-avatars.com/api/?name=Amanda+Lima&background=87cefa&color=fff" alt="Amanda Lima">
+                                <div>
+                                    <h4>Amanda Lima</h4>
+                                    <div class="stars">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>"Amei o design de sobrancelha. Meu rosto ficou com outra expressão. Tudo muito higienizado, super cuidadosos e profissionais!"</p>
                         </div>
                     </div>
                 </section>
@@ -145,46 +162,48 @@
 
             <div id="tab-videos" class="tab-content">
                 <section class="services">
-                    <h3>Dicas do Barbeiro</h3>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Cuidados pro dia a dia em casa.</p>
+                    <h3>Dicas de Beleza</h3>
+                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Cuidados para manter o visual em casa.</p>
                     <div class="grid-layout">
-                        <div class="item-card" onclick="abrirVideo('https://www.youtube.com/embed/dQw4w9WgXcQ', 'Como modelar o topete')"><div style="position:relative;"><img src="https://images.unsplash.com/photo-1599305090598-fe179d501227?w=300&h=200&fit=crop" alt="Topete"><i class="fa-solid fa-play" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:white; font-size:2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);"></i></div><div class="item-card-body"><h4>Como modelar o topete com pomada</h4></div></div>
-                        <div class="item-card" onclick="abrirVideo('https://www.youtube.com/embed/tgbNymZ7vqY', 'Cuidados com a Barba')"><div style="position:relative;"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&h=200&fit=crop" alt="Barba"><i class="fa-solid fa-play" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:white; font-size:2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);"></i></div><div class="item-card-body"><h4>Como hidratar a barba (Óleo e Balm)</h4></div></div>
+                        <div class="item-card" onclick="abrirVideo('https://www.youtube.com/embed/zpOULjyy-n8', 'Como manter o loiro')"><div style="position:relative;"><img src="./img/loiro.jpg" alt="Loiro"><i class="fa-solid fa-play" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:white; font-size:2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);"></i></div><div class="item-card-body"><h4>Como manter o loiro</h4></div></div>
+                        <div class="item-card" onclick="abrirVideo('https://www.youtube.com/embed/tgbNymZ7vqY', 'Cuidados com as Unhas')"><div style="position:relative;"><img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=300&h=200&fit=crop" alt="Unhas"><i class="fa-solid fa-play" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:white; font-size:2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);"></i></div><div class="item-card-body"><h4>Cuidados com as Unhas</h4></div></div>
+                        <div class="item-card" onclick="abrirVideo('https://www.youtube.com/embed/dQw4w9WgXcQ', 'Tutorial de Make Dia')"><div style="position:relative;"><img src="./img/make.jpg" alt="Make"><i class="fa-solid fa-play" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:white; font-size:2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);"></i></div><div class="item-card-body"><h4>Tutorial de Make Dia</h4></div></div>
+                        <div class="item-card" onclick="abrirVideo('https://www.youtube.com/embed/zpOULjyy-n8', 'Hidratação Caseira')"><div style="position:relative;"><img src="./img/hidrata.jpg" alt="Hidratação"><i class="fa-solid fa-play" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:white; font-size:2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);"></i></div><div class="item-card-body"><h4>Hidratação Caseira</h4></div></div>
                     </div>
                 </section>
             </div>
 
             <div id="tab-produtos" class="tab-content">
                 <section class="services">
-                    <h3>Nossa Prateleira</h3>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Leve o estilo Navalha pra casa.</p>
+                    <h3>Nossa Vitrine</h3>
+                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Produtos profissionais para você.</p>
                     <div class="grid-layout">
-                        <div class="item-card"><img src="https://images.unsplash.com/photo-1599305090598-fe179d501227?w=200&h=200&fit=crop" alt="Pomada Matte"><div class="item-card-body"><h4>Pomada Efeito Matte</h4><p>R$ 45,00</p></div></div>
-                        <div class="item-card"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=200&h=200&fit=crop" alt="Óleo de Barba"><div class="item-card-body"><h4>Óleo de Barba Lenhador</h4><p>R$ 35,00</p></div></div>
-                        <div class="item-card"><img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=200&h=200&fit=crop" alt="Balm"><div class="item-card-body"><h4>Balm Pós-Barba</h4><p>R$ 40,00</p></div></div>
-                        <div class="item-card"><img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=200&h=200&fit=crop" alt="Pente"><div class="item-card-body"><h4>Pente de Madeira</h4><p>R$ 25,00</p></div></div>
+                        <div class="item-card"><img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=200&h=200&fit=crop" alt="Máscara de Hidratação Profunda"><div class="item-card-body"><h4>Máscara Profunda</h4><p>R$ 110,00</p></div></div>
+                        <div class="item-card"><img src="https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=200&h=200&fit=crop" alt="Óleo Reparador de Pontas"><div class="item-card-body"><h4>Óleo Reparador</h4><p>R$ 75,00</p></div></div>
+                        <div class="item-card"><img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=200&h=200&fit=crop" alt="Kit de Pincéis"><div class="item-card-body"><h4>Kit de Pincéis Make</h4><p>R$ 140,00</p></div></div>
+                        <div class="item-card"><img src="./img/esmalte.jpg" alt="Esmaltes Hipoalergênicos"><div class="item-card-body"><h4>Kit Esmaltes Gel</h4><p>R$ 45,00</p></div></div>
                     </div>
                 </section>
             </div>
 
             <div id="tab-profissionais" class="tab-content">
                 <section class="services">
-                    <h3>A Tropa</h3>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Os mestres da tesoura e navalha.</p>
+                    <h3>Nossos Especialistas</h3>
+                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Conheça nossa equipe de talentos.</p>
                     <div id="lista-profissionais"></div>
                 </section>
             </div>
 
             <div id="tab-admin" class="tab-content">
                 <section class="services">
-                    <h3>Painel do Chefe</h3>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Visão geral dos cortes do dia.</p>
+                    <h3>Painel de Controle</h3>
+                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Visão interna da equipe.</p>
                     
                     <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                        <button class="btn btn-primary" id="btn-agendar-admin" style="background: #333; color: white; border-color: #333; flex: 1; padding: 12px; font-size: 0.9rem;" data-tooltip="Encaixar cliente no balcão">
+                        <button class="btn btn-primary" id="btn-agendar-admin" style="background: #333; color: white; border-color: #333; flex: 1; padding: 12px; font-size: 0.9rem;" data-tooltip="Agendar para cliente no balcão">
                             <i class="fa-solid fa-plus"></i> Novo
                         </button>
-                        <button class="btn btn-secondary" id="btn-toggle-view" style="flex: 1; padding: 12px; font-size: 0.9rem; border: 1px solid var(--primary-color);" data-tooltip="Alternar visualização">
+                        <button class="btn btn-secondary" id="btn-toggle-view" style="flex: 1; padding: 12px; font-size: 0.9rem; border: 1px solid var(--primary-color);" data-tooltip="Alternar visualização de agendamentos">
                             <i class="fa-regular fa-calendar-days"></i> Calendário
                         </button>
                     </div>
@@ -199,55 +218,73 @@
                             <h4 id="cal-month-year" style="color: var(--primary-color); margin: 0; font-size: 1.1rem;">Mês Ano</h4>
                             <button id="cal-next" class="icon-btn" style="color: var(--text-dark); background: transparent; box-shadow: none;"><i class="fa-solid fa-chevron-right"></i></button>
                         </div>
+                        
                         <div class="calendar-grid">
                             <div class="cal-day-header">Dom</div><div class="cal-day-header">Seg</div><div class="cal-day-header">Ter</div>
                             <div class="cal-day-header">Qua</div><div class="cal-day-header">Qui</div><div class="cal-day-header">Sex</div><div class="cal-day-header">Sáb</div>
                         </div>
                         <div id="calendar-grid" class="calendar-grid"></div>
-                        <h4 id="cal-selected-date-text" style="margin: 20px 0 10px 0; color: var(--text-dark); font-size: 1rem; display: none;">Cortes marcados no dia:</h4>
+                        
+                        <h4 id="cal-selected-date-text" style="margin: 20px 0 10px 0; color: var(--text-dark); font-size: 1rem; display: none;">Agendamentos do dia:</h4>
                         <div id="lista-admin-calendario"></div>
                     </div>
 
                     <div id="section-gerenciar-equipe" style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.1);">
-                        <h3>Gerenciar a Tropa</h3>
-                        <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Adicionar e demitir barbeiros.</p>
+                        <h3>Gerenciar Equipe</h3>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Área exclusiva do Gestor.</p>
                         
                         <form id="form-admin-pro" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
                             <input type="hidden" id="edit-pro-id"> 
-                            <input type="text" id="pro-nome" class="modal-input" placeholder="Nome do Barbeiro" required>
-                            <input type="email" id="pro-email" class="modal-input" placeholder="E-mail de Login do Barbeiro" required>
+                            <input type="text" id="pro-nome" class="modal-input" placeholder="Nome do Profissional" required>
                             
-                            <p style="font-size: 0.9rem; color: var(--text-dark); margin-top: 10px;"><strong>Serviços que ele faz:</strong></p>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem; color: var(--text-dark);">
-                                <label><input type="checkbox" name="pro-service" value="Corte Degradê / Social"> Corte</label>
-                                <label><input type="checkbox" name="pro-service" value="Barba Terapia"> Barba Terapia</label>
-                                <label><input type="checkbox" name="pro-service" value="Combo: Cabelo + Barba"> Combo (Cab+Barba)</label>
-                                <label><input type="checkbox" name="pro-service" value="Sobrancelha na Navalha"> Sobrancelha</label>
-                                <label><input type="checkbox" name="pro-service" value="Pigmentação de Barba"> Pigmentação</label>
-                                <label><input type="checkbox" name="pro-service" value="Luzes / Platinado"> Platinado</label>
+                            <input type="email" id="pro-email" class="modal-input" placeholder="E-mail de Login do Profissional" required>
+                            
+                            <p style="font-size: 0.9rem; color: var(--text-dark); margin-top: 10px;"><strong>Serviços Habilitados:</strong></p>
+                            <div id="checkboxes-servicos-pro" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem; color: var(--text-dark);">
                             </div>
                             
                             <label style="margin-top: 15px; display: block; color: var(--primary-color); font-weight: bold; font-size: 0.9rem; background: var(--card-bg); padding: 10px; border-radius: 10px; border: 1px solid var(--primary-light);">
                                 <input type="checkbox" id="pro-gestor" style="margin-right: 8px; transform: scale(1.2);"> 
-                                Permissão de Gerente (Acesso Total)
+                                Dar permissão de Gestor (Acesso Total)
                             </label>
 
                             <div style="display: flex; gap: 10px; margin-top: 10px;">
-                                <button type="submit" id="btn-submit-pro" class="btn btn-primary" style="flex: 1; background: #333; border-color:#333;">Salvar Barbeiro</button>
+                                <button type="submit" id="btn-submit-pro" class="btn btn-primary" style="flex: 1; background: #333; border-color:#333;">Salvar Profissional</button>
                                 <button type="button" id="btn-cancel-edit" class="btn btn-secondary hidden" style="flex: 1;">Cancelar</button>
                             </div>
                         </form>
+
                         <div id="lista-admin-equipe"></div>
+                    </div>
+
+                    <div id="section-gerenciar-servicos" style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.1);">
+                        <h3>Gerenciar Serviços</h3>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Adicione, edite ou remova os serviços do catálogo.</p>
+                        
+                        <form id="form-admin-servico" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+                            <input type="hidden" id="edit-servico-id">
+                            <input type="text" id="servico-nome" class="modal-input" placeholder="Nome do Serviço (ex: Corte Bordado)" required>
+                            <input type="text" id="servico-desc" class="modal-input" placeholder="Breve descrição" required>
+                            <input type="text" id="servico-preco" class="modal-input" placeholder="Preço (ex: R$ 150,00)" required>
+                            <input type="url" id="servico-img" class="modal-input" placeholder="Link da imagem (URL)" required>
+                            
+                            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                                <button type="submit" id="btn-submit-servico" class="btn btn-primary" style="flex: 1; background: #333; border-color:#333;">Salvar Serviço</button>
+                                <button type="button" id="btn-cancel-edit-servico" class="btn btn-secondary hidden" style="flex: 1;">Cancelar</button>
+                            </div>
+                        </form>
+                        <div id="lista-admin-servicos"></div>
                     </div>
                 </section>
             </div>
 
             <nav class="bottom-nav">
                 <button class="nav-btn active" data-target="tab-inicio" data-tooltip="Página Inicial"><i class="fa-solid fa-house"></i><span>Início</span></button>
-                <button class="nav-btn" data-target="tab-videos" data-tooltip="Dicas e Estilos"><i class="fa-solid fa-circle-play"></i><span>Vídeos</span></button>
-                <button class="nav-btn" data-target="tab-produtos" data-tooltip="Produtos da Barbearia"><i class="fa-solid fa-bag-shopping"></i><span>Loja</span></button>
-                <button class="nav-btn" data-target="tab-profissionais" data-tooltip="Nossos Barbeiros"><i class="fa-solid fa-user-group"></i><span>A Tropa</span></button>
-                <button class="nav-btn" id="nav-btn-admin" data-target="tab-admin" data-tooltip="Painel do Chefe"><i class="fa-solid fa-gear"></i><span>Admin</span></button>
+                <button class="nav-btn" data-target="tab-videos" data-tooltip="Dicas e Tutoriais"><i class="fa-solid fa-circle-play"></i><span>Vídeos</span></button>
+                <button class="nav-btn" data-target="tab-produtos" data-tooltip="Comprar Produtos"><i class="fa-solid fa-bag-shopping"></i><span>Loja</span></button>
+                <button class="nav-btn" data-target="tab-profissionais" data-tooltip="Conheça a Equipe"><i class="fa-solid fa-user-group"></i><span>Equipe</span></button>
+                
+                <button class="nav-btn" id="nav-btn-admin" data-target="tab-admin" data-tooltip="Gestão do Salão"><i class="fa-solid fa-gear"></i><span>Admin</span></button>
             </nav>
         </div>
     </div>
@@ -255,25 +292,29 @@
     <div class="modal-overlay" id="modal-agendamento">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modal-agendamento-titulo">Lançar no Sistema</h3>
+                <h3 id="modal-agendamento-titulo">Novo Horário</h3>
                 <button class="close-btn" id="btn-close"><i class="fa-solid fa-xmark"></i></button>
             </div>
+            
             <form id="form-agendamento">
-                <input type="text" id="input-cliente-nome" class="modal-input hidden" placeholder="Nome do Cliente">
+                <input type="text" id="input-cliente-nome" class="modal-input hidden" placeholder="Nome do Cliente (Balcão)">
                 <input type="tel" id="input-telefone" class="modal-input" placeholder="Seu Telefone / WhatsApp" required>
+
                 <select id="select-servico" class="modal-input" required>
-                    <option value="">1. Qual o trampo de hoje?</option>
-                    <option value="Corte Degradê / Social">Corte Degradê / Social</option>
-                    <option value="Barba Terapia">Barba Terapia</option>
-                    <option value="Combo: Cabelo + Barba">Combo: Cabelo + Barba</option>
-                    <option value="Sobrancelha na Navalha">Sobrancelha na Navalha</option>
-                    <option value="Pigmentação de Barba">Pigmentação de Barba</option>
-                    <option value="Luzes / Platinado">Luzes / Platinado</option>
+                    <option value="">1. Selecione o Serviço...</option>
+                    </select>
+
+                <select id="select-profissional" class="modal-input" required disabled>
+                    <option value="">2. Selecione o Profissional...</option>
                 </select>
-                <select id="select-profissional" class="modal-input" required disabled><option value="">2. Escolha o Barbeiro...</option></select>
+
                 <input type="date" id="input-data" class="modal-input" required disabled>
-                <select id="select-horario" class="modal-input" required disabled><option value="">4. Selecione o Horário...</option></select>
-                <button type="submit" class="btn btn-primary confirm-btn">Marcar Horário</button>
+                
+                <select id="select-horario" class="modal-input" required disabled>
+                    <option value="">4. Selecione o Horário...</option>
+                </select>
+
+                <button type="submit" class="btn btn-primary confirm-btn">Confirmar Agendamento</button>
             </form>
         </div>
     </div>
@@ -281,15 +322,15 @@
     <div class="modal-overlay" id="modal-video">
         <div class="modal-content" style="max-width: 700px; padding: 20px;">
             <div class="modal-header" style="margin-bottom: 15px;">
-                <h3 id="video-title">Vídeo</h3>
+                <h3 id="video-title">Título do Vídeo</h3>
                 <button class="close-btn" id="btn-close-video"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="video-container">
-                <iframe id="video-frame" width="100%" height="315" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe id="video-frame" width="100%" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
         </div>
     </div>
 
-    <script src="js/app.js"></script>
+    <script src="js/app.js?v=1.0.4"></script>
 </body>
 </html>

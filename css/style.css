@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
 
-/* ================= PALETAS DE CORES GERAIS E TRANSIÇÕES (MODO BARBEARIA) ================= */
+/* ================= PALETAS DE CORES GERAIS E TRANSIÇÕES ================= */
 :root {
-    /* Padrão de Inicialização (Dark & Gold) */
-    --bg-color: #1a1a1a;
-    --body-bg: #111111;
-    --card-bg: #262626;
-    --primary-color: #eab308;
-    --primary-light: #ca8a04;
-    --text-dark: #f5f5f5; 
-    --text-light: #a3a3a3;
+    /* Padrão de Inicialização (Rosa Clínica / Light Pink) */
+    --bg-color: #fdf3f6;
+    --primary-color: #f7708e;
+    --primary-light: #ff8fa9;
+    --card-bg: #ffffff;
+    --text-dark: #6e3549;
+    --text-light: #a36f81;
     --border-radius: 24px;
-    --shadow: 0 8px 20px rgba(0,0,0,0.5);
+    --shadow: 0 8px 20px rgba(247, 112, 142, 0.15);
+    --body-bg: #fce8f0;
 }
 
 /* Transição suave ao mudar de cor em todo o app */
@@ -42,13 +42,13 @@ body {
 /* ================= SELETOR DE TEMAS FLUTUANTE (PÍLULA MOBILE) ================= */
 .theme-switcher {
     position: fixed;
-    bottom: 85px; 
+    bottom: 85px; /* Acima do menu inferior */
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     flex-direction: row;
     gap: 12px;
-    z-index: 90; 
+    z-index: 90; /* Atrás do modal de vídeo */
     background: var(--card-bg);
     padding: 10px 20px;
     border-radius: 40px;
@@ -59,53 +59,127 @@ body {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.2);
+    border: 2px solid #fff;
     cursor: pointer;
     transition: transform 0.2s;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .theme-btn:hover { 
     transform: scale(1.15); 
-    border-color: #fff;
 }
 
 /* ========================================================
-   PALETAS DE CORES ESPECÍFICAS (Barbearia)
+   PALETAS DE CORES ESPECÍFICAS (Salão de Beleza / Clínica)
    ======================================================== */
 
-body.color-navy { --bg-color: #0f172a; --body-bg: #020617; --card-bg: #1e293b; --primary-color: #38bdf8; --primary-light: #0284c7; --text-dark: #f1f5f9; --text-light: #94a3b8; }
-body.color-forest { --bg-color: #14532d; --body-bg: #052e16; --card-bg: #166534; --primary-color: #4ade80; --primary-light: #16a34a; --text-dark: #f0fdf4; --text-light: #86efac; }
-body.color-wine { --bg-color: #271017; --body-bg: #1a0b0f; --card-bg: #4c0519; --primary-color: #fb7185; --primary-light: #e11d48; --text-dark: #ffe4e6; --text-light: #fecdd3; }
-body.color-wood { --bg-color: #292524; --body-bg: #1c1917; --card-bg: #44403c; --primary-color: #fdba74; --primary-light: #d97706; --text-dark: #fff7ed; --text-light: #fed7aa; }
-body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171717; --primary-color: #ffffff; --primary-light: #a3a3a3; --text-dark: #ffffff; --text-light: #a3a3a3; }
+/* Dourado */
+body.color-gold {
+    --bg-color: #fffaf0;
+    --primary-color: #d4af37;
+    --primary-light: #f3e5ab;
+    --text-dark: #5c4033;
+    --text-light: #8b7355;
+    --body-bg: #fdf5e6;
+    --shadow: 0 8px 20px rgba(212, 175, 55, 0.15);
+}
 
-/* Ajustes gerais de comportamento em modos escuros (Agora é o padrão!) */
-.btn-primary { 
+/* Bege */
+body.color-beige {
+    --bg-color: #fdfaf5;
+    --primary-color: #dcbfa6;
+    --primary-light: #f5ebe0;
+    --text-dark: #705c4c;
+    --text-light: #a49da3;
+    --body-bg: #fcf6ef;
+    --shadow: 0 8px 20px rgba(220, 191, 166, 0.15);
+}
+
+/* Verde Água */
+body.color-aqua {
+    --bg-color: #f0fbf9;
+    --primary-color: #48d1cc;
+    --primary-light: #afeeee;
+    --text-dark: #2f4f4f;
+    --text-light: #5f9ea0;
+    --body-bg: #e0f7f5;
+    --shadow: 0 8px 20px rgba(72, 209, 204, 0.15);
+}
+
+/* Roxinho Claro */
+body.color-light-purple {
+    --bg-color: #f8f3fd;
+    --primary-color: #b39ddb;
+    --primary-light: #d1c4e9;
+    --text-dark: #4a235a;
+    --text-light: #8e44ad;
+    --body-bg: #f3e8fa;
+    --shadow: 0 8px 20px rgba(179, 157, 219, 0.15);
+}
+
+/* Azul Clarinho */
+body.color-light-blue {
+    --bg-color: #f0f8ff;
+    --primary-color: #87cefa;
+    --primary-light: #b0e0e6;
+    --text-dark: #104e8b;
+    --text-light: #4682b4;
+    --body-bg: #e6f2ff;
+    --shadow: 0 8px 20px rgba(135, 206, 250, 0.15);
+}
+
+/* --- BARBEARIA / TATTOO (Modos Escuros) --- */
+body.color-dark {
+    --bg-color: #1a1a1a;
+    --primary-color: #ffffff;
+    --primary-light: #444444;
+    --card-bg: #2d2d2d;
+    --text-dark: #f5f5f5;
+    --text-light: #aaaaaa;
+    --shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    --body-bg: #111111;
+}
+
+body.color-purple {
+    --bg-color: #fdf3fc;
+    --primary-color: #9b59b6;
+    --primary-light: #b97dd4;
+    --card-bg: #ffffff;
+    --text-dark: #6e3549;
+    --text-light: #a36f81;
+    --shadow: 0 8px 20px rgba(155, 89, 182, 0.15);
+    --body-bg: #fce8f8;
+}
+
+/* ========================================================
+   AJUSTES GERAIS DE COMPORTAMENTO EM MODOS ESCUROS
+   ======================================================== */
+   
+body.color-dark .btn-primary, body.color-purple .btn-primary { 
     background: linear-gradient(to right, var(--primary-light), var(--primary-color)); 
-    color: #111; /* Texto preto no botão dourado */
+    color: #fff; 
     border: 1px solid var(--primary-light); 
 }
 
-.modal-input { 
+body.color-dark .modal-input, body.color-purple .modal-input { 
     background-color: rgba(255,255,255,0.05); 
     border-color: rgba(255,255,255,0.2); 
     color: white;
 }
 
-.header { 
+body.color-dark .header, body.color-purple .header { 
     background: linear-gradient(135deg, var(--card-bg), var(--primary-color)); 
 }
 
-.bottom-nav button span { color: rgba(255,255,255,0.7); }
-.bottom-nav button { color: rgba(255,255,255,0.7); }
+body.color-dark .bottom-nav button span, body.color-purple .bottom-nav button span { color: rgba(255,255,255,0.7); }
+body.color-dark .bottom-nav button, body.color-purple .bottom-nav button { color: rgba(255,255,255,0.7); }
 
-.bottom-nav button.active span, 
-.bottom-nav button.active, .bottom-nav button:hover { 
+body.color-dark .bottom-nav button.active span, body.color-purple .bottom-nav button.active span,
+body.color-dark .bottom-nav button.active, body.color-dark .bottom-nav button:hover, body.color-purple .bottom-nav button.active, body.color-purple .bottom-nav button.active { 
     color: white; 
 }
 
-.service-info strong { color: white; }
+body.color-dark .service-info strong, body.color-purple .service-info strong { color: white; }
 
 /* ================= CONTAINER PRINCIPAL ================= */
 .app-container {
@@ -115,7 +189,7 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     min-height: 100vh;
     position: relative;
     padding-bottom: 130px; 
-    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    box-shadow: 0 0 30px rgba(0,0,0,0.05);
 }
 
 /* ================= TELA DE AUTENTICAÇÃO ================= */
@@ -184,19 +258,18 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     align-items: center;
     padding: 25px 20px;
     background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
-    color: #111;
+    color: white;
     border-radius: 0 0 30px 30px;
     margin-bottom: -20px;
     padding-bottom: 45px;
 }
 
-.logo { font-weight: 700; letter-spacing: 0.5px; color: inherit; }
-.top-rating { color: inherit; }
+.logo { font-weight: 700; letter-spacing: 0.5px; }
 
 .icon-btn {
-    background: rgba(0,0,0, 0.15);
+    background: rgba(255, 255, 255, 0.2);
     border: none;
-    color: inherit;
+    color: white;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -213,14 +286,14 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     margin-top: 10px;
 }
 
-.welcome-text h2 { font-size: 1.6rem; color: var(--text-dark); font-weight: 800; }
+.welcome-text h2 { font-size: 1.6rem; color: var(--text-dark); }
 .welcome-text p { color: var(--text-light); font-size: 0.95rem; }
 
 .profile-pic img {
     width: 65px;
     height: 65px;
     border-radius: 50%;
-    border: 3px solid var(--primary-color);
+    border: 3px solid white;
     box-shadow: var(--shadow);
     object-fit: cover;
 }
@@ -242,25 +315,25 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     border-radius: var(--border-radius);
     border: none;
     font-size: 1.1rem;
-    font-weight: 800;
+    font-weight: 700;
     cursor: pointer;
     box-shadow: var(--shadow);
 }
 
 .btn i:first-child { margin-right: 15px; font-size: 1.3rem; }
 .chevron { margin-left: auto; font-size: 1rem; }
-
+.btn-primary { background: linear-gradient(to right, var(--primary-light), var(--primary-color)); color: white; }
 .btn-secondary { background-color: var(--card-bg); color: var(--primary-color); }
 
 .services { padding: 0 25px 25px 25px; }
 .services h3 { 
-    font-size: 1.35rem; 
-    font-weight: 800; 
+    font-size: 1.35rem; /* Fonte com mais presença */
+    font-weight: 800; /* Mais chamativo */
     color: var(--text-dark); 
     margin-bottom: 8px; 
-    letter-spacing: -0.5px; 
+    letter-spacing: -0.5px; /* Toque moderno na tipografia */
     position: relative;
-    padding-bottom: 12px; 
+    padding-bottom: 12px; /* Espaço para o detalhe visual */
 }
 
 .services h3::after {
@@ -268,8 +341,8 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 45px; 
-    height: 5px; 
+    width: 45px; /* Tamanho da barrinha */
+    height: 5px; /* Espessura da barrinha */
     background: linear-gradient(to right, var(--primary-light), var(--primary-color));
     border-radius: 10px;
 }
@@ -296,7 +369,6 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     justify-content: space-between;
     margin-bottom: 15px;
     box-shadow: var(--shadow);
-    border: 1px solid rgba(255,255,255,0.05);
 }
 
 .service-card img {
@@ -325,6 +397,7 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* CORREÇÃO DO VAZAMENTO E ESPAÇO NO FUNDO */
 .bottom-nav {
     position: fixed; 
     bottom: 0;
@@ -335,10 +408,11 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     background-color: var(--card-bg);
     display: flex;
     justify-content: space-between; 
+    /* Adicionado padding extra para engolir a margem de segurança do celular (iPhone) */
     padding: 10px 5px calc(10px + env(safe-area-inset-bottom)) 5px; 
     margin: 0;
     border-radius: 0;
-    box-shadow: 0 -10px 20px rgba(0,0,0,0.5);
+    box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
     z-index: 9999;
 }
 
@@ -353,6 +427,7 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     align-items: center;
     gap: 4px;
     font-size: 1.1rem;
+    /* A mágica que impede os botões de vazarem da tela: */
     flex: 1 1 0px; 
     min-width: 0; 
 }
@@ -376,12 +451,11 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     flex-direction: column;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
-    border: 1px solid rgba(255,255,255,0.05);
 }
 
 .item-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.5);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
 }
 
 .item-card img { width: 100%; height: 120px; object-fit: cover; }
@@ -397,7 +471,6 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     border-radius: 15px;
     margin-bottom: 15px;
     box-shadow: var(--shadow);
-    border: 1px solid rgba(255,255,255,0.05);
 }
 
 .pro-card img {
@@ -409,18 +482,20 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     border: 2px solid var(--primary-light);
 }
 
-.pro-info h4 { margin-bottom: 3px; font-size: 1rem; color: var(--text-dark);}
+.pro-info h4 { margin-bottom: 3px; font-size: 1rem; }
 .pro-info p { font-size: 0.85rem; color: var(--text-light); }
 
 /* ================= MODAIS ================= */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0,0,0,0.6);
     display: flex; justify-content: center; align-items: center;
     opacity: 0; visibility: hidden;
     transition: opacity 0.3s;
     z-index: 1000;
 }
+
+body.color-dark .modal-overlay { background-color: rgba(0, 0, 0, 0.8); }
 
 .modal-overlay.active { opacity: 1; visibility: visible; }
 
@@ -430,8 +505,7 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     border-radius: 30px; padding: 25px;
     transform: translateY(50px);
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
-    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
 }
 
 .modal-overlay.active .modal-content { transform: translateY(0); }
@@ -439,10 +513,16 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .close-btn { background: none; border: none; font-size: 1.5rem; color: var(--text-light); cursor: pointer; }
 
+.modal-input {
+    width: 100%; padding: 15px; border-radius: 15px;
+    border: 1px solid #ccc; margin: 15px 0;
+    font-family: inherit; color: var(--text-dark); background: transparent;
+}
+
 /* ================= MODAL DE VÍDEO ================= */
 .video-container {
     position: relative;
-    padding-bottom: 56.25%; 
+    padding-bottom: 56.25%; /* Mantém a proporção 16:9 */
     height: 0;
     overflow: hidden;
     border-radius: 15px;
@@ -471,7 +551,7 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     color: var(--text-light); 
 }
 .cal-day { 
-    background: rgba(255,255,255,0.05); 
+    background: var(--card-bg); 
     border-radius: 8px; 
     padding: 10px 0; 
     text-align: center; 
@@ -484,23 +564,28 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
 }
 .cal-day:hover:not(.empty) { 
     transform: scale(1.05); 
-    border-color: var(--primary-color);
+    box-shadow: var(--shadow); 
 }
 .cal-day.empty { 
     background: transparent; 
     box-shadow: none; 
     cursor: default; 
 }
+/* Dia que tem agendamento marcado */
 .cal-day.has-appts { 
     border: 1px solid var(--primary-color); 
     font-weight: bold; 
     color: var(--primary-color); 
 }
+/* Dia selecionado/clicado */
 .cal-day.active { 
     background: linear-gradient(135deg, var(--primary-light), var(--primary-color)); 
-    color: #111; 
+    color: white; 
     border-color: transparent; 
-    font-weight: bold;
+}
+/* Ajuste para o modo escuro nas outras páginas */
+body.color-dark .cal-day, body.color-purple .cal-day { 
+    border: 1px solid rgba(255,255,255,0.1); 
 }
 
 /* ================= AVALIAÇÕES E CARROSSEL ================= */
@@ -508,7 +593,7 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     display: flex;
     align-items: center;
     gap: 3px;
-    color: #f1c40f; 
+    color: #f1c40f; /* Dourado das estrelas */
     font-size: 0.9rem;
     margin-bottom: 8px;
 }
@@ -523,16 +608,13 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     display: flex;
     gap: 15px;
     overflow-x: auto;
-    padding-bottom: 15px; 
-    scroll-snap-type: x mandatory; 
-    scrollbar-width: none; 
-    cursor: grab;
+    padding-bottom: 15px; /* Espaço para não cortar a sombra dos cards */
+    scroll-snap-type: x mandatory; /* Faz o scroll "travar" no card certinho */
+    scrollbar-width: none; /* Esconde a barra feia no Firefox */
 }
 
-.reviews-carousel:active { cursor: grabbing; }
-
 .reviews-carousel::-webkit-scrollbar {
-    display: none; 
+    display: none; /* Esconde a barra feia no Chrome/Safari/Edge */
 }
 
 .review-card {
@@ -546,13 +628,24 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     display: flex;
     flex-direction: column;
     gap: 12px;
-    border: 1px solid rgba(255,255,255,0.05);
 }
 
 .review-header {
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+.service-price {
+    background-color: var(--body-bg); /* Usa o fundo do site para destacar a tag */
+    color: var(--primary-color);
+    font-weight: 800;
+    font-size: 0.95rem;
+    padding: 8px 12px;
+    border-radius: 12px;
+    white-space: nowrap; /* Impede o R$ de ficar numa linha e o número na outra */
+    margin-left: 10px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
 }
 
 .review-header img {
@@ -581,63 +674,6 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     font-style: italic;
 }
 
-/* ================= MODAIS & INPUTS ================= */
-.modal-overlay { 
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-    background-color: rgba(0,0,0,0.8); 
-    display: flex; justify-content: center; align-items: center; 
-    opacity: 0; visibility: hidden; transition: opacity 0.3s; 
-    z-index: 10000; backdrop-filter: blur(5px); 
-}
-.modal-overlay.active { opacity: 1; visibility: visible; }
-
-.modal-content { 
-    background-color: var(--card-bg); 
-    width: 90%; max-width: 420px; /* Levemente mais largo para respirar melhor */
-    border-radius: 24px; padding: 30px; 
-    transform: translateY(50px); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    box-shadow: 0 15px 30px rgba(0,0,0,0.5); 
-    border: 1px solid rgba(255,255,255,0.1); 
-}
-.modal-overlay.active .modal-content { transform: translateY(0); }
-
-.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-.modal-header h3 { color: var(--text-dark); font-weight: 800; font-size: 1.4rem; }
-.close-btn { background: none; border: none; font-size: 1.5rem; color: var(--text-light); cursor: pointer; transition: color 0.2s; }
-.close-btn:hover { color: var(--primary-color); }
-
-/* A MÁGICA AQUI: Força o formulário a empilhar os campos perfeitamente */
-#form-agendamento {
-    display: flex;
-    flex-direction: column;
-    gap: 12px; /* Espaçamento uniforme entre os campos */
-}
-
-.modal-input {
-    width: 100%; padding: 16px; border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.1); margin: 0; 
-    font-family: inherit; font-size: 0.95rem;
-    color: var(--text-dark); 
-    background: rgba(255,255,255,0.05); outline: none;
-    transition: border-color 0.3s, background-color 0.3s;
-}
-
-.modal-input:focus { 
-    border-color: var(--primary-color); 
-    background: rgba(255,255,255,0.08); 
-}
-
-.modal-input option { 
-    background-color: var(--card-bg); 
-    color: var(--text-dark); 
-}
-
-/* Afasta o botão de confirmar do resto dos inputs */
-#form-agendamento .btn-primary {
-    margin-top: 10px;
-    padding: 18px;
-}
-
 /* ================= RESPONSIVIDADE DESKTOP ================= */
 @media (min-width: 992px) {
     .app-container {
@@ -646,10 +682,6 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
         margin: 40px auto;
         border-radius: 30px;
         padding-bottom: 0;
-        /* A CORREÇÃO ESTÁ AQUI: O container agora força a altura e puxa o site com ele */
-        display: flex;
-        flex-direction: column;
-        min-height: 85vh; 
     }
 
     #app-view {
@@ -659,8 +691,7 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
         grid-template-areas:
             "sidebar header"
             "sidebar main";
-        /* Faz o quadro preencher o min-height perfeitamente, forçando a barra lateral ir até o chão */
-        flex: 1;
+        min-height: 80vh;
         background-color: var(--bg-color);
         border-radius: 30px;
     }
@@ -701,14 +732,13 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
         flex-direction: column;
         justify-content: flex-start;
         padding: 40px 20px;
-        border-right: 1px solid rgba(255,255,255,0.05); /* Borda clarinha elegante */
+        border-right: 1px solid rgba(0,0,0,0.1);
         border-radius: 30px 0 0 30px;
         box-shadow: none;
         z-index: 10;
-        height: 100%; /* Força a cor da barra até o final */
     }
     
-    body.color-dark .bottom-nav { border-right: 1px solid rgba(255,255,255,0.05); }
+    body.color-dark .bottom-nav { border-right: 1px solid var(--text-light); }
 
     .bottom-nav button {
         flex-direction: row;
@@ -725,14 +755,14 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     
     .bottom-nav button.active, .bottom-nav button:hover {
         background-color: var(--primary-color); 
-        color: #111; /* Texto escuro dentro do botão dourado */
+        color: white;
         transform: translateX(5px);
     }
     
     /* Hover/Active para os modos escuros no menu lateral do desktop */
     body.color-dark .bottom-nav button.active, body.color-dark .bottom-nav button:hover { 
-        background-color: rgba(255,255,255,0.05); 
-        color: var(--primary-color); 
+        background-color: rgba(255,255,255,0.1); 
+        color: white; 
     }
 
     .hero { padding: 0; margin-bottom: 40px; }
@@ -767,8 +797,8 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
     .theme-btn {
         width: 40px;
         height: 40px;
-        border: 3px solid var(--card-bg);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        border: 3px solid #fff;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
 }
 
@@ -785,8 +815,8 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
         bottom: 120%;
         left: 50%;
         transform: translateX(-50%) translateY(10px);
-        background-color: var(--primary-color);
-        color: #111;
+        background-color: #007bff;
+        color: #ffffff;
         padding: 6px 12px;
         border-radius: 8px;
         font-size: 0.75rem;
@@ -796,7 +826,7 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
         visibility: hidden;
         transition: opacity 0.3s ease, transform 0.3s ease;
         z-index: 10000;
-        box-shadow: var(--shadow);
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
         pointer-events: none;
     }
 
@@ -808,7 +838,7 @@ body.color-gold-black { --bg-color: #000000; --body-bg: #0a0a0a; --card-bg: #171
         transform: translateX(-50%) translateY(10px);
         border-width: 6px;
         border-style: solid;
-        border-color: var(--primary-color) transparent transparent transparent;
+        border-color: #007bff transparent transparent transparent;
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.3s ease, transform 0.3s ease;
