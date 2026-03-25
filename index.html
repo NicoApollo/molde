@@ -41,9 +41,22 @@
         </div>
 
         <div id="app-view" class="view-section hidden">
+            
             <header class="header">
                 <button class="icon-btn" id="btn-logout" data-tooltip="Sair da sua conta"><i class="fa-solid fa-right-from-bracket"></i></button>
-                <h1 class="logo" style="font-size: 1.2rem;">Studio Beauty</h1>
+                
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <h1 class="logo" style="font-size: 1.3rem; margin-bottom: 2px;">Studio Beauty</h1>
+                    <div class="top-rating" data-tooltip="Média de 4.9 baseada em avaliações reais" style="margin-bottom: 0; cursor: pointer;">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star-half-stroke"></i>
+                        <span style="color: inherit; font-size: 0.8rem; margin-left: 4px;">4.9 (128)</span>
+                    </div>
+                </div>
+
                 <button class="icon-btn" data-tooltip="Ver suas notificações"><i class="fa-regular fa-bell"></i></button>
             </header>
 
@@ -78,6 +91,78 @@
                         <div class="service-card"><img src="./img/maquiagem.jpg" alt="Maquiagem Profissional"><div class="service-info"><h4>Maquiagem Profissional</h4><p>Social e para Eventos</p></div></div>
                         <div class="service-card"><img src="./img/penteados.jpg" alt="Penteados"><div class="service-info"><h4>Penteados</h4><p>Tranças, Coques e Escova</p></div></div>
                         <div class="service-card"><img src="./img/sobra.jpg" alt="Design de Sobrancelhas"><div class="service-info"><h4>Design de Sobrancelhas</h4><p>Com ou sem Henna</p></div></div>
+                    </div>
+                </section>
+
+                <section class="services">
+                    <h3>O que dizem sobre nós</h3>
+                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">A opinião de quem já passou por aqui.</p>
+                    
+                    <div class="reviews-carousel">
+                        <div class="review-card">
+                            <div class="review-header">
+                                <img src="https://ui-avatars.com/api/?name=Ana+Paula&background=ff8fa9&color=fff" alt="Ana Paula">
+                                <div>
+                                    <h4>Ana Paula</h4>
+                                    <div class="stars">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>"Adorei o atendimento! A Mariana é uma excelente profissional, meu cabelo ficou perfeito. O ambiente é lindo e muito acolhedor."</p>
+                        </div>
+
+                        <div class="review-card">
+                            <div class="review-header">
+                                <img src="https://ui-avatars.com/api/?name=Beatriz+S.&background=d4af37&color=fff" alt="Beatriz S.">
+                                <div>
+                                    <h4>Beatriz S.</h4>
+                                    <div class="stars">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>"O melhor salão da cidade! Fiz a unha com a Carla e durou horrores. Achei muito fácil agendar pelo aplicativo, muito prático."</p>
+                        </div>
+
+                        <div class="review-card">
+                            <div class="review-header">
+                                <img src="https://ui-avatars.com/api/?name=Fernanda+Costa&background=48d1cc&color=fff" alt="Fernanda Costa">
+                                <div>
+                                    <h4>Fernanda Costa</h4>
+                                    <div class="stars">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>"Fiz maquiagem para o meu casamento com a Julia e ficou impecável, durou a festa inteira intacta! Recomendo de olhos fechados."</p>
+                        </div>
+
+                        <div class="review-card">
+                            <div class="review-header">
+                                <img src="https://ui-avatars.com/api/?name=Camila+Pires&background=b39ddb&color=fff" alt="Camila Pires">
+                                <div>
+                                    <h4>Camila Pires</h4>
+                                    <div class="stars">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>"Amei o corte! Mostrei uma foto de referência e a Mariana acertou em cheio no que eu queria. Já virei cliente fixa do salão."</p>
+                        </div>
+
+                        <div class="review-card">
+                            <div class="review-header">
+                                <img src="https://ui-avatars.com/api/?name=Amanda+Lima&background=87cefa&color=fff" alt="Amanda Lima">
+                                <div>
+                                    <h4>Amanda Lima</h4>
+                                    <div class="stars">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>"Amei o design de sobrancelha. Meu rosto ficou com outra expressão. Tudo muito higienizado, super cuidadosos e profissionais!"</p>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -156,7 +241,8 @@
                         <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Área exclusiva do Gestor.</p>
                         
                         <form id="form-admin-pro" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
-                            <input type="hidden" id="edit-pro-id"> <input type="text" id="pro-nome" class="modal-input" placeholder="Nome do Profissional" required>
+                            <input type="hidden" id="edit-pro-id"> 
+                            <input type="text" id="pro-nome" class="modal-input" placeholder="Nome do Profissional" required>
                             
                             <input type="email" id="pro-email" class="modal-input" placeholder="E-mail de Login do Profissional" required>
                             
