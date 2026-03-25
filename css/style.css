@@ -188,7 +188,7 @@ body.color-dark .service-info strong, body.color-purple .service-info strong { c
     max-width: 500px;
     min-height: 100vh;
     position: relative;
-    padding-bottom: 130px; /* Aumentado para o conteúdo rolar livremente até o fim */
+    padding-bottom: 130px; 
     box-shadow: 0 0 30px rgba(0,0,0,0.05);
 }
 
@@ -326,7 +326,32 @@ body.color-dark .service-info strong, body.color-purple .service-info strong { c
 .btn-secondary { background-color: var(--card-bg); color: var(--primary-color); }
 
 .services { padding: 0 25px 25px 25px; }
-.services h3 { font-size: 1.1rem; color: var(--text-dark); margin-bottom: 15px; }
+.services h3 { 
+    font-size: 1.35rem; /* Fonte com mais presença */
+    font-weight: 800; /* Mais chamativo */
+    color: var(--text-dark); 
+    margin-bottom: 8px; 
+    letter-spacing: -0.5px; /* Toque moderno na tipografia */
+    position: relative;
+    padding-bottom: 12px; /* Espaço para o detalhe visual */
+}
+
+.services h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 45px; /* Tamanho da barrinha */
+    height: 5px; /* Espessura da barrinha */
+    background: linear-gradient(to right, var(--primary-light), var(--primary-color));
+    border-radius: 10px;
+}
+
+.services h3 + p {
+    margin-top: 5px !important;
+    margin-bottom: 25px !important;
+    line-height: 1.4;
+}
 
 /* Tratamentos Mobile */
 .tratamentos-grid {
@@ -372,30 +397,39 @@ body.color-dark .service-info strong, body.color-purple .service-info strong { c
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* CORREÇÃO DO VAZAMENTO E ESPAÇO NO FUNDO */
 .bottom-nav {
-    position: fixed; /* MUDANÇA PRINCIPAL: De absolute para fixed */
+    position: fixed; 
     bottom: 0;
+    left: 50%; 
+    transform: translateX(-50%); 
     width: 100%;
-    max-width: 500px; /* Mantém o menu alinhado com a largura do app */
+    max-width: 500px; 
     background-color: var(--card-bg);
     display: flex;
-    justify-content: space-around;
-    padding: 15px 0;
-    box-shadow: 0 -10px 20px rgba(0,0,0,0.05); /* Sombra no topo para dar destaque */
-    z-index: 100;
+    justify-content: space-between; 
+    /* Adicionado padding extra para engolir a margem de segurança do celular (iPhone) */
+    padding: 10px 5px calc(10px + env(safe-area-inset-bottom)) 5px; 
+    margin: 0;
+    border-radius: 0;
+    box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
+    z-index: 9999;
 }
 
 .bottom-nav button {
     background: none;
     border: none;
-    color: #dfb2c2;
+    color: var(--text-light); 
     cursor: pointer;
     transition: color 0.3s;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 4px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    /* A mágica que impede os botões de vazarem da tela: */
+    flex: 1 1 0px; 
+    min-width: 0; 
 }
 
 .bottom-nav button span { font-size: 0.65rem; font-weight: 700; }
@@ -503,6 +537,57 @@ body.color-dark .modal-overlay { background-color: rgba(0, 0, 0, 0.8); }
     height: 100%;
 }
 
+/* ================= CALENDÁRIO ADMIN ================= */
+.calendar-grid { 
+    display: grid; 
+    grid-template-columns: repeat(7, 1fr); 
+    gap: 5px; 
+    margin-bottom: 15px; 
+}
+.cal-day-header { 
+    text-align: center; 
+    font-size: 0.8rem; 
+    font-weight: bold; 
+    color: var(--text-light); 
+}
+.cal-day { 
+    background: var(--card-bg); 
+    border-radius: 8px; 
+    padding: 10px 0; 
+    text-align: center; 
+    cursor: pointer; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+    transition: all 0.2s; 
+    font-size: 0.9rem; 
+    border: 1px solid transparent; 
+    color: var(--text-dark); 
+}
+.cal-day:hover:not(.empty) { 
+    transform: scale(1.05); 
+    box-shadow: var(--shadow); 
+}
+.cal-day.empty { 
+    background: transparent; 
+    box-shadow: none; 
+    cursor: default; 
+}
+/* Dia que tem agendamento marcado */
+.cal-day.has-appts { 
+    border: 1px solid var(--primary-color); 
+    font-weight: bold; 
+    color: var(--primary-color); 
+}
+/* Dia selecionado/clicado */
+.cal-day.active { 
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color)); 
+    color: white; 
+    border-color: transparent; 
+}
+/* Ajuste para o modo escuro nas outras páginas */
+body.color-dark .cal-day, body.color-purple .cal-day { 
+    border: 1px solid rgba(255,255,255,0.1); 
+}
+
 /* ================= RESPONSIVIDADE DESKTOP ================= */
 @media (min-width: 992px) {
     .app-container {
@@ -549,15 +634,22 @@ body.color-dark .modal-overlay { background-color: rgba(0, 0, 0, 0.8); }
         overflow-y: auto;
     }
 
+    /* DESLIGA O AJUSTE MOBILE NO COMPUTADOR */
     .bottom-nav {
         grid-area: sidebar;
         position: relative;
+        left: auto; 
+        bottom: auto; 
+        transform: none; 
+        width: auto;
+        max-width: none;
         flex-direction: column;
         justify-content: flex-start;
         padding: 40px 20px;
         border-right: 1px solid rgba(0,0,0,0.1);
         border-radius: 30px 0 0 30px;
         box-shadow: none;
+        z-index: 10;
     }
     
     body.color-dark .bottom-nav { border-right: 1px solid var(--text-light); }
@@ -569,6 +661,8 @@ body.color-dark .modal-overlay { background-color: rgba(0, 0, 0, 0.8); }
         border-radius: 15px;
         margin-bottom: 10px;
         transition: all 0.3s ease;
+        flex: none; /* Desliga o ajuste mobile no PC */
+        min-width: auto;
     }
 
     .bottom-nav button span { margin-left: 15px; font-size: 1rem; }
@@ -623,53 +717,53 @@ body.color-dark .modal-overlay { background-color: rgba(0, 0, 0, 0.8); }
 }
 
 /* ================= TOOLTIPS (BALÃO EXPLICATIVO AZUL) ================= */
-[data-tooltip] {
-    position: relative;
-    cursor: help;
-}
+@media (hover: hover) {
+    [data-tooltip] {
+        position: relative;
+        cursor: help;
+    }
 
-[data-tooltip]::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 120%; /* Faz o balão aparecer acima do botão */
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
-    background-color: #007bff; /* Azul clássico e moderno */
-    color: #ffffff;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 10000;
-    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
-    pointer-events: none; /* Garante que o balão não atrapalhe o clique */
-}
+    [data-tooltip]::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 120%;
+        left: 50%;
+        transform: translateX(-50%) translateY(10px);
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        z-index: 10000;
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+        pointer-events: none;
+    }
 
-/* Triângulo virado para baixo criando a ponta do balão */
-[data-tooltip]::before {
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
-    border-width: 6px;
-    border-style: solid;
-    border-color: #007bff transparent transparent transparent;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 10000;
-    pointer-events: none;
-}
+    [data-tooltip]::before {
+        content: '';
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(10px);
+        border-width: 6px;
+        border-style: solid;
+        border-color: #007bff transparent transparent transparent;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        z-index: 10000;
+        pointer-events: none;
+    }
 
-/* Animação ao passar o mouse */
-[data-tooltip]:hover::after,
-[data-tooltip]:hover::before {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
+    [data-tooltip]:hover::after,
+    [data-tooltip]:hover::before {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+    }
 }
