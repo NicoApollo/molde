@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // ==========================================
-    // 1. BANCO DE DADOS (LocalStorage)
+    // 1. BANCO DE DADOS (LocalStorage do Salão)
     // ==========================================
     const DB = {
         getUsers: () => JSON.parse(localStorage.getItem('eb_users')) || [],
@@ -14,19 +14,37 @@ document.addEventListener('DOMContentLoaded', () => {
         setCurrentUser: (user) => localStorage.setItem('eb_current_user', JSON.stringify(user)),
         logout: () => localStorage.removeItem('eb_current_user'),
 
+        // RESTAURANDO OS 6 SERVIÇOS ORIGINAIS (Imagens e Textos Exatos)
+        getServices: () => {
+            let servs = JSON.parse(localStorage.getItem('eb_servs_v3')); // v3 força o navegador a atualizar
+            if (!servs || servs.length === 0) {
+                servs = [
+                    { id: 1, nome: "Corte Feminino", desc: "Lavagem e finalização inclusos", preco: "R$ 120,00", img: "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=100&h=100&fit=crop" },
+                    { id: 2, nome: "Coloração / Mechas", desc: "a partir de R$ 250,00", preco: "R$ 250,00", img: "./img/mechas.jpg" },
+                    { id: 3, nome: "Manicure e Pedicure", desc: "Tradicional ou Gel", preco: "R$ 60,00", img: "https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=100&h=100&fit=crop" },
+                    { id: 4, nome: "Maquiagem Profissional", desc: "Social e para Eventos", preco: "R$ 180,00", img: "./img/maquiagem.jpg" },
+                    { id: 5, nome: "Penteados", desc: "Tranças, Coques e Escova", preco: "R$ 150,00", img: "./img/penteados.jpg" },
+                    { id: 6, nome: "Design de Sobrancelhas", desc: "Com ou sem Henna", preco: "R$ 45,00", img: "./img/sobra.jpg" }
+                ];
+                localStorage.setItem('eb_servs_v3', JSON.stringify(servs));
+            }
+            return servs;
+        },
+        saveServices: (servs) => localStorage.setItem('eb_servs_v3', JSON.stringify(servs)),
+
         getProfessionals: () => {
-            let pros = JSON.parse(localStorage.getItem('eb_pros'));
+            let pros = JSON.parse(localStorage.getItem('eb_pros_v2'));
             if (!pros || pros.length === 0) {
                 pros = [
-                    { id: 1, nome: "Mariana Silva", email: "mariana@salao.com", isGestor: true, servicos: ["Corte Feminino", "Coloração / Mechas", "Penteado"] },
+                    { id: 1, nome: "Mariana Silva", email: "mariana@salao.com", isGestor: true, servicos: ["Corte Feminino", "Coloração / Mechas", "Penteados"] },
                     { id: 2, nome: "Julia Torres", email: "julia@salao.com", isGestor: false, servicos: ["Maquiagem Profissional", "Design de Sobrancelhas"] },
                     { id: 3, nome: "Carla Mendes", email: "carla@salao.com", isGestor: false, servicos: ["Manicure e Pedicure"] }
                 ];
-                localStorage.setItem('eb_pros', JSON.stringify(pros));
+                localStorage.setItem('eb_pros_v2', JSON.stringify(pros));
             }
             return pros;
         },
-        saveProfessionals: (pros) => localStorage.setItem('eb_pros', JSON.stringify(pros)),
+        saveProfessionals: (pros) => localStorage.setItem('eb_pros_v2', JSON.stringify(pros)),
     };
 
     let isAdminBooking = false;
@@ -92,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
-    // 4. LÓGICA DO CALENDÁRIO ADMIN
+    // 4. LÓGICA DO CALENDÁRIO ADMIN E SERVIÇOS
     // ==========================================
     const btnToggleView = document.getElementById('btn-toggle-view');
     const viewLista = document.getElementById('view-lista');
@@ -155,11 +173,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="service-info">
                         <h4>${app.servico}</h4>
                         <p style="color: var(--text-dark); margin-bottom: 2px;"><strong>Cliente:</strong> ${app.clienteNome}</p>
-                        <p style="color: var(--text-dark); margin-bottom: 2px;"><strong>Contato:</strong> ${app.telefone || 'N/A'}</p>
                         <p style="color: var(--text-light); font-size:0.85rem; margin-bottom: 5px;"><strong>Profissional:</strong> ${app.profissionalNome}</p>
                         <p><i class="fa-regular fa-clock"></i> ${app.horario}</p>
                     </div>
-                    <button onclick="cancelarAgendamento(${app.id})" style="background:none; border:none; color: #cc0000; cursor:pointer;" data-tooltip="Excluir do Sistema">
+                    <button onclick="cancelarAgendamento(${app.id})" style="background:none; border:none; color: #cc0000; cursor:pointer;" data-tooltip="Excluir">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
@@ -171,7 +188,120 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('cal-next')?.addEventListener('click', () => { currentCalDate.setMonth(currentCalDate.getMonth() + 1); renderCalendar(); });
 
     // ==========================================
-    // 5. AGENDAMENTO EM CASCATA
+    // 5. GESTÃO DE SERVIÇOS DINÂMICOS
+    // ==========================================
+    function renderServicos() {
+        const servicos = DB.getServices();
+        
+        // 1. Renderiza na Aba Início
+        const listaInicio = document.getElementById('lista-servicos-inicio');
+        if(listaInicio) {
+            if(servicos.length > 0) {
+                listaInicio.innerHTML = servicos.map(s => `
+                    <div class="service-card">
+                        <img src="${s.img}" alt="${s.nome}">
+                        <div class="service-info">
+                            <h4>${s.nome}</h4>
+                            <p>${s.desc}</p>
+                        </div>
+                        ${s.preco ? `<div class="service-price">${s.preco}</div>` : ''}
+                    </div>
+                `).join('');
+            } else {
+                listaInicio.innerHTML = '<p style="color: var(--text-light);">Nenhum serviço cadastrado.</p>';
+            }
+        }
+
+        // 2. Renderiza na Aba Admin (Lista de Edição)
+        const adminServicos = document.getElementById('lista-admin-servicos');
+        if(adminServicos) {
+            adminServicos.innerHTML = servicos.map(s => `
+                <div class="pro-card" style="margin-top: 10px; border: 1px solid rgba(0,0,0,0.1); box-shadow:none;">
+                    <img src="${s.img}" style="border-radius: 8px;">
+                    <div class="pro-info" style="flex: 1;">
+                        <h4 style="color: var(--primary-color);">${s.nome}</h4>
+                        <p style="font-size: 0.75rem; color: var(--text-dark);">${s.preco}</p>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <button onclick="editarServico(${s.id})" style="background:none; border:none; color: var(--primary-color); cursor:pointer;" data-tooltip="Editar"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="removerServico(${s.id})" style="background:none; border:none; color: #cc0000; cursor:pointer;" data-tooltip="Remover"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 3. Atualiza as Caixinhas do Cadastro de Equipe
+        const checkboxesContainer = document.getElementById('checkboxes-servicos-pro');
+        if(checkboxesContainer) {
+            checkboxesContainer.innerHTML = servicos.map(s => `
+                <label><input type="checkbox" name="pro-service" value="${s.nome}"> ${s.nome}</label>
+            `).join('');
+        }
+
+        // 4. Atualiza o Select do Agendamento
+        const selectServico = document.getElementById('select-servico');
+        if(selectServico) {
+            selectServico.innerHTML = '<option value="">1. Selecione o Serviço...</option>' + 
+                servicos.map(s => `<option value="${s.nome}">${s.nome}</option>`).join('');
+        }
+    }
+
+    const formAdminServico = document.getElementById('form-admin-servico');
+    if (formAdminServico) {
+        formAdminServico.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const idEdit = document.getElementById('edit-servico-id').value;
+            const nome = document.getElementById('servico-nome').value;
+            const desc = document.getElementById('servico-desc').value;
+            const preco = document.getElementById('servico-preco').value;
+            const img = document.getElementById('servico-img').value;
+            
+            let servs = DB.getServices();
+            if(idEdit) {
+                const index = servs.findIndex(s => s.id == idEdit);
+                if(index > -1) servs[index] = { id: servs[index].id, nome, desc, preco, img };
+                alert('Serviço atualizado com sucesso!');
+            } else {
+                servs.push({ id: Date.now(), nome, desc, preco, img });
+                alert('Serviço adicionado com sucesso!');
+            }
+            DB.saveServices(servs);
+            resetFormServico();
+            renderServicos();
+            renderEquipes(); 
+        });
+    }
+
+    window.editarServico = function(id) {
+        const s = DB.getServices().find(x => x.id == id);
+        if(!s) return;
+        document.getElementById('edit-servico-id').value = s.id;
+        document.getElementById('servico-nome').value = s.nome;
+        document.getElementById('servico-desc').value = s.desc;
+        document.getElementById('servico-preco').value = s.preco;
+        document.getElementById('servico-img').value = s.img;
+        document.getElementById('btn-submit-servico').textContent = 'Salvar Alterações';
+        document.getElementById('btn-cancel-edit-servico').classList.remove('hidden');
+        document.getElementById('form-admin-servico').scrollIntoView({behavior: 'smooth'});
+    };
+
+    window.removerServico = function(id) {
+        if(confirm('Atenção: Deletar este serviço removerá ele do catálogo. Continuar?')) {
+            DB.saveServices(DB.getServices().filter(s => s.id !== id));
+            renderServicos();
+        }
+    };
+
+    document.getElementById('btn-cancel-edit-servico')?.addEventListener('click', resetFormServico);
+    function resetFormServico() {
+        if(formAdminServico) formAdminServico.reset();
+        document.getElementById('edit-servico-id').value = '';
+        document.getElementById('btn-submit-servico').textContent = 'Salvar Serviço';
+        document.getElementById('btn-cancel-edit-servico').classList.add('hidden');
+    }
+
+    // ==========================================
+    // 6. AGENDAMENTO EM CASCATA
     // ==========================================
     const modal = document.getElementById('modal-agendamento');
     const formAgendamento = document.getElementById('form-agendamento');
@@ -203,7 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('btn-agendar').addEventListener('click', () => { isAdminBooking = false; abrirModalAgendamento("Novo Horário"); });
-    document.getElementById('btn-agendar-admin')?.addEventListener('click', () => { isAdminBooking = true; abrirModalAgendamento("Agendar para Cliente"); });
+    document.getElementById('btn-agendar-admin')?.addEventListener('click', () => { isAdminBooking = true; abrirModalAgendamento("Agendar Cliente"); });
     document.getElementById('btn-close').addEventListener('click', () => modal.classList.remove('active'));
 
     selectServico.addEventListener('change', (e) => {
@@ -266,13 +396,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
-    // 6. RENDERIZAÇÃO DO SISTEMA (MODO DEMONSTRAÇÃO)
+    // 7. RENDERIZAÇÃO DA TELA
     // ==========================================
     function renderAgendamentos() {
         const currentUser = DB.getCurrentUser();
         const todosApps = DB.getAppointments();
-        
-        // 1. TELA DO CLIENTE (Aba Início)
+        const currentPro = DB.getProfessionals().find(p => p.email === currentUser.email);
+        const isGestor = currentPro ? currentPro.isGestor : false;
+
+        const sectionEquipe = document.getElementById('section-gerenciar-equipe');
+        const sectionServicos = document.getElementById('section-gerenciar-servicos');
+        if(sectionEquipe) sectionEquipe.style.display = isGestor || !currentPro ? 'block' : 'none';
+        if(sectionServicos) sectionServicos.style.display = isGestor || !currentPro ? 'block' : 'none';
+
         const meusApps = todosApps.filter(app => app.clienteNome === currentUser.nome || app.userId === currentUser.id);
         const section = document.getElementById('lista-agendamentos-section');
         const container = document.getElementById('lista-agendamentos');
@@ -287,15 +423,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p><i class="fa-regular fa-calendar"></i> ${app.data.split('-').reverse().join('/')} às ${app.horario}</p>
                         <p style="color: green; font-size: 0.8rem; margin-top: 5px;">${app.status}</p>
                     </div>
-                    <button onclick="cancelarAgendamento(${app.id})" style="background:none; border:none; color: #cc0000; cursor:pointer;" data-tooltip="Cancelar">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
+                    <button onclick="cancelarAgendamento(${app.id})" style="background:none; border:none; color: #cc0000; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
                 </div>
             `).join('');
         } else { section.style.display = 'none'; }
 
-        // 2. TELA DO ADMIN (Aba Admin - Lista)
-        // MODO DEMO: Tudo liberado para qualquer usuário interagir
         const adminContainer = document.getElementById('lista-admin-agendamentos');
         if (adminContainer) {
             if (todosApps.length > 0) {
@@ -304,13 +436,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="service-info">
                             <h4>${app.servico}</h4>
                             <p style="color: var(--text-dark); margin-bottom: 2px;"><strong>Cliente:</strong> ${app.clienteNome}</p>
-                            <p style="color: var(--text-dark); margin-bottom: 2px;"><strong>Telefone:</strong> ${app.telefone || 'Não informado'}</p>
                             <p style="color: var(--text-light); font-size:0.85rem; margin-bottom: 5px;"><strong>Profissional:</strong> ${app.profissionalNome}</p>
                             <p><i class="fa-regular fa-calendar"></i> ${app.data.split('-').reverse().join('/')} às ${app.horario}</p>
                         </div>
-                        <button onclick="cancelarAgendamento(${app.id})" style="background:none; border:none; color: #cc0000; cursor:pointer;" data-tooltip="Excluir">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
+                        <button onclick="cancelarAgendamento(${app.id})" style="background:none; border:none; color: #cc0000; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 `).join('');
             } else { adminContainer.innerHTML = '<p style="text-align:center; color: var(--text-light); margin-top: 20px;">Nenhum agendamento no sistema.</p>'; }
@@ -321,12 +450,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 7. GESTÃO E EDIÇÃO DE EQUIPE
+    // 8. GESTÃO E EDIÇÃO DE EQUIPE
     // ==========================================
     function renderEquipes() {
         const pros = DB.getProfessionals();
-        
-        // MODO DEMO: Liberado para visualizar, editar e demitir
         const adminEquipe = document.getElementById('lista-admin-equipe');
         if(adminEquipe) {
             if(pros.length > 0) {
@@ -338,12 +465,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             <p style="font-size: 0.75rem; color: var(--text-light);"><strong>Faz:</strong> ${p.servicos.join(', ')}</p>
                         </div>
                         <div style="display:flex; gap:10px;">
-                            <button onclick="editarProfissional(${p.id})" style="background:none; border:none; color: var(--primary-color); cursor:pointer;" data-tooltip="Editar">
-                                <i class="fa-solid fa-pen"></i>
-                            </button>
-                            <button onclick="removerProfissional(${p.id})" style="background:none; border:none; color: #cc0000; cursor:pointer;" data-tooltip="Demitir">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
+                            <button onclick="editarProfissional(${p.id})" style="background:none; border:none; color: var(--primary-color); cursor:pointer;"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="removerProfissional(${p.id})" style="background:none; border:none; color: #cc0000; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
                 `).join('');
@@ -379,7 +502,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let servicosSelecionados = [];
             checkboxes.forEach((cb) => servicosSelecionados.push(cb.value));
 
-            if(servicosSelecionados.length === 0) return alert('Selecione pelo menos um serviço!');
+            if(servicosSelecionados.length === 0) return alert('Selecione pelo menos um serviço para o profissional!');
 
             let pros = DB.getProfessionals();
             
@@ -423,7 +546,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function resetFormPro() {
         if(formAdminPro) formAdminPro.reset();
         document.getElementById('edit-pro-id').value = '';
-        document.getElementById('btn-submit-pro').textContent = 'Cadastrar na Equipe';
+        document.getElementById('btn-submit-pro').textContent = 'Salvar Profissional';
         const btnCancel = document.getElementById('btn-cancel-edit');
         if(btnCancel) btnCancel.classList.add('hidden');
     }
@@ -443,7 +566,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ==========================================
-    // 8. CONTROLE DO MODAL DE VÍDEO
+    // 9. CONTROLE DO MODAL DE VÍDEO
     // ==========================================
     const modalVideo = document.getElementById('modal-video');
     const videoFrame = document.getElementById('video-frame');
@@ -451,8 +574,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-close-video').addEventListener('click', () => { modalVideo.classList.remove('active'); videoFrame.src = ""; });
     window.addEventListener('click', (e) => { if (e.target === modalVideo) { modalVideo.classList.remove('active'); videoFrame.src = ""; } });
 
+    const carousel = document.querySelector('.reviews-carousel');
+    if (carousel) {
+        let isDown = false; let startX; let scrollLeft;
+        carousel.addEventListener('mousedown', (e) => { isDown = true; carousel.style.scrollSnapType = 'none'; startX = e.pageX - carousel.offsetLeft; scrollLeft = carousel.scrollLeft; });
+        carousel.addEventListener('mouseleave', () => { isDown = false; carousel.style.scrollSnapType = 'x mandatory'; });
+        carousel.addEventListener('mouseup', () => { isDown = false; carousel.style.scrollSnapType = 'x mandatory'; });
+        carousel.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - carousel.offsetLeft; const walk = (x - startX) * 1.5; carousel.scrollLeft = scrollLeft - walk; });
+    }
+
     // ==========================================
-    // 9. INICIALIZAÇÃO E AVISO DE DEMO
+    // 10. INICIALIZAÇÃO
     // ==========================================
     function checkSession() { 
         if (DB.getCurrentUser()) { initApp(); } else { views.app.classList.add('hidden'); views.auth.classList.remove('hidden'); } 
@@ -464,18 +596,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const savedColor = localStorage.getItem('eb_color') || 'beige';
         mudarCor(savedColor);
+        
+        // Renderiza os serviços primeiro, depois o resto
+        renderServicos();
         renderAgendamentos(); 
         
-        // Simular o clique no "Início" para garantir que a tela carregue sempre no Home
         document.querySelector('.nav-btn[data-target="tab-inicio"]').click();
-
-        // Pop-up explicativo da Demonstração (Aparece 1x por sessão)
-        if (!sessionStorage.getItem('demo_aviso')) {
-            setTimeout(() => {
-                alert("Bem-vindo ao Molde de Demonstração!\n\nPara facilitar seus testes, a aba 'Admin' está liberada para você explorar tudo:\n✓ Agendar como Cliente\n✓ Gerenciar a Equipe\n✓ Visualizar o Calendário do Gestor\n\n(No sistema real para o seu cliente final, apenas contas da gerência enxergam a aba Admin).");
-                sessionStorage.setItem('demo_aviso', 'true');
-            }, 500); // Aguarda meio segundo após a tela carregar
-        }
     } 
 
     checkSession();
