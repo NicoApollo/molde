@@ -17,11 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
         getProfessionals: () => {
             let pros = JSON.parse(localStorage.getItem('eb_pros'));
             if (!pros || pros.length === 0) {
-                // Popula profissionais iniciais se o banco estiver vazio
                 pros = [
-                    { id: 1, nome: "Mariana Silva", servicos: ["Corte Feminino", "Coloração / Mechas", "Penteado"] },
-                    { id: 2, nome: "Julia Torres", servicos: ["Maquiagem Profissional", "Design de Sobrancelhas"] },
-                    { id: 3, nome: "Carla Mendes", servicos: ["Manicure e Pedicure"] }
+                    { id: 1, nome: "Mariana Silva", email: "mariana@salao.com", isGestor: true, servicos: ["Corte Feminino", "Coloração / Mechas", "Penteado"] },
+                    { id: 2, nome: "Julia Torres", email: "julia@salao.com", isGestor: false, servicos: ["Maquiagem Profissional", "Design de Sobrancelhas"] },
+                    { id: 3, nome: "Carla Mendes", email: "carla@salao.com", isGestor: false, servicos: ["Manicure e Pedicure"] }
                 ];
                 localStorage.setItem('eb_pros', JSON.stringify(pros));
             }
@@ -31,6 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     let isAdminBooking = false;
+    let currentCalDate = new Date();
+    let selectedDateString = null;
+    let isCalendarView = false;
 
     // ==========================================
     // 2. TROCA DE CORES 
@@ -38,16 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
     window.mudarCor = function(corClass) {
         localStorage.setItem('eb_color', corClass);
         document.body.className = '';
-        if (corClass !== 'light-pink') {
-            document.body.classList.add(`color-${corClass}`);
-        }
+        if (corClass !== 'light-pink') document.body.classList.add(`color-${corClass}`);
 
         const user = DB.getCurrentUser();
         if (user) {
             const colorHexMap = { 'light-pink': 'f7708e', 'gold': 'd4af37', 'beige': 'dcbfa6', 'aqua': '48d1cc', 'light-purple': 'b39ddb', 'light-blue': '87cefa' };
             const avatarHex = colorHexMap[corClass] || 'f7708e';
             const avatarEl = document.getElementById('user-avatar');
-            if (avatarEl) avatarEl.src = `https://ui-avatars.com/api/?name=${user.nome}&background=${avatarHex}&color=fff`;
+            if (avatarEl) avatarEl.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.nome)}&background=${avatarHex}&color=fff`;
         }
     };
 
@@ -80,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('btn-logout').addEventListener('click', () => { DB.logout(); checkSession(); });
 
-    // Navegação entre Abas
     const navButtons = document.querySelectorAll('.nav-btn');
     const tabContents = document.querySelectorAll('.tab-content');
     navButtons.forEach(btn => {
@@ -93,7 +92,86 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
-    // 4. AGENDAMENTO E CASCATA DE FILTROS
+    // 4. LÓGICA DO CALENDÁRIO ADMIN
+    // ==========================================
+    const btnToggleView = document.getElementById('btn-toggle-view');
+    const viewLista = document.getElementById('view-lista');
+    const viewCalendario = document.getElementById('view-calendario');
+
+    if(btnToggleView) {
+        btnToggleView.addEventListener('click', () => {
+            isCalendarView = !isCalendarView;
+            if(isCalendarView) {
+                viewLista.classList.add('hidden'); viewCalendario.classList.remove('hidden');
+                btnToggleView.innerHTML = '<i class="fa-solid fa-list"></i> Lista'; renderCalendar();
+            } else {
+                viewCalendario.classList.add('hidden'); viewLista.classList.remove('hidden');
+                btnToggleView.innerHTML = '<i class="fa-regular fa-calendar-days"></i> Calendário';
+            }
+        });
+    }
+
+    function renderCalendar() {
+        const monthYearEl = document.getElementById('cal-month-year');
+        const gridEl = document.getElementById('calendar-grid');
+        if(!gridEl) return;
+        const year = currentCalDate.getFullYear(); const month = currentCalDate.getMonth();
+        const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+        monthYearEl.textContent = `${monthNames[month]} ${year}`;
+        gridEl.innerHTML = '';
+        
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const todosApps = DB.getAppointments();
+
+        for(let i = 0; i < firstDay; i++) gridEl.innerHTML += `<div class="cal-day empty"></div>`;
+
+        for(let i = 1; i <= daysInMonth; i++) {
+            const dateStr = `${year}-${String(month+1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+            const hasAppts = todosApps.some(app => app.data === dateStr);
+            const isSelected = selectedDateString === dateStr;
+            let classes = 'cal-day';
+            if(hasAppts) classes += ' has-appts';
+            if(isSelected) classes += ' active';
+            gridEl.innerHTML += `<div class="${classes}" onclick="selectCalendarDate('${dateStr}')">${i}</div>`;
+        }
+    }
+
+    window.selectCalendarDate = function(dateStr) { selectedDateString = dateStr; renderCalendar(); renderCalendarAppointments(); }
+
+    function renderCalendarAppointments() {
+        const container = document.getElementById('lista-admin-calendario');
+        const title = document.getElementById('cal-selected-date-text');
+        if(!container) return;
+        if(!selectedDateString) { title.style.display = 'none'; container.innerHTML = ''; return; }
+
+        const apps = DB.getAppointments().filter(app => app.data === selectedDateString);
+        title.style.display = 'block';
+        title.textContent = `Agendamentos do dia ${selectedDateString.split('-').reverse().join('/')}:`;
+
+        if(apps.length > 0) {
+            container.innerHTML = apps.map(app => `
+                <div class="service-card" style="border-left: 4px solid var(--primary-color); margin-bottom: 10px;">
+                    <div class="service-info">
+                        <h4>${app.servico}</h4>
+                        <p style="color: var(--text-dark); margin-bottom: 2px;"><strong>Cliente:</strong> ${app.clienteNome}</p>
+                        <p style="color: var(--text-dark); margin-bottom: 2px;"><strong>Contato:</strong> ${app.telefone || 'N/A'}</p>
+                        <p style="color: var(--text-light); font-size:0.85rem; margin-bottom: 5px;"><strong>Profissional:</strong> ${app.profissionalNome}</p>
+                        <p><i class="fa-regular fa-clock"></i> ${app.horario}</p>
+                    </div>
+                    <button onclick="cancelarAgendamento(${app.id})" style="background:none; border:none; color: #cc0000; cursor:pointer;" data-tooltip="Excluir do Sistema">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        } else { container.innerHTML = '<p style="color: var(--text-light); font-size: 0.9rem;">Livre. Nenhum agendamento neste dia.</p>'; }
+    }
+
+    document.getElementById('cal-prev')?.addEventListener('click', () => { currentCalDate.setMonth(currentCalDate.getMonth() - 1); renderCalendar(); });
+    document.getElementById('cal-next')?.addEventListener('click', () => { currentCalDate.setMonth(currentCalDate.getMonth() + 1); renderCalendar(); });
+
+    // ==========================================
+    // 5. AGENDAMENTO EM CASCATA
     // ==========================================
     const modal = document.getElementById('modal-agendamento');
     const formAgendamento = document.getElementById('form-agendamento');
@@ -102,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputData = document.getElementById('input-data');
     const selectHorario = document.getElementById('select-horario');
     const inputClienteNome = document.getElementById('input-cliente-nome');
-    const inputTelefone = document.getElementById('input-telefone'); // Elemento Telefone
+    const inputTelefone = document.getElementById('input-telefone');
 
     const now = new Date();
     const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
@@ -119,19 +197,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         selectProfissional.innerHTML = '<option value="">2. Selecione o Profissional...</option>';
-        selectProfissional.disabled = true;
-        inputData.disabled = true;
-        selectHorario.innerHTML = '<option value="">4. Selecione o Horário...</option>';
-        selectHorario.disabled = true;
-
+        selectProfissional.disabled = true; inputData.disabled = true;
+        selectHorario.innerHTML = '<option value="">4. Selecione o Horário...</option>'; selectHorario.disabled = true;
         modal.classList.add('active');
     }
 
     document.getElementById('btn-agendar').addEventListener('click', () => { isAdminBooking = false; abrirModalAgendamento("Novo Horário"); });
-    document.getElementById('btn-agendar-admin').addEventListener('click', () => { isAdminBooking = true; abrirModalAgendamento("Agendar para Cliente"); });
+    document.getElementById('btn-agendar-admin')?.addEventListener('click', () => { isAdminBooking = true; abrirModalAgendamento("Agendar para Cliente"); });
     document.getElementById('btn-close').addEventListener('click', () => modal.classList.remove('active'));
 
-    // Filtros em Cascata
     selectServico.addEventListener('change', (e) => {
         const servico = e.target.value;
         selectProfissional.innerHTML = '<option value="">2. Selecione o Profissional...</option>';
@@ -141,23 +215,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 pros.forEach(p => selectProfissional.innerHTML += `<option value="${p.id}">${p.nome}</option>`);
                 selectProfissional.disabled = false;
             } else {
-                selectProfissional.innerHTML = '<option value="">Nenhum profissional para este serviço</option>';
-                selectProfissional.disabled = true;
+                selectProfissional.innerHTML = '<option value="">Nenhum profissional para este serviço</option>'; selectProfissional.disabled = true;
             }
         } else { selectProfissional.disabled = true; }
         inputData.disabled = true; selectHorario.disabled = true; inputData.value = ''; selectHorario.innerHTML = '<option value="">4. Selecione o Horário...</option>';
     });
 
-    selectProfissional.addEventListener('change', () => {
-        inputData.disabled = !selectProfissional.value;
-        selectHorario.disabled = true; inputData.value = ''; selectHorario.innerHTML = '<option value="">4. Selecione o Horário...</option>';
-    });
+    selectProfissional.addEventListener('change', () => { inputData.disabled = !selectProfissional.value; selectHorario.disabled = true; inputData.value = ''; selectHorario.innerHTML = '<option value="">4. Selecione o Horário...</option>'; });
 
     inputData.addEventListener('change', () => {
-        const dateVal = inputData.value;
-        const proId = selectProfissional.value;
+        const dateVal = inputData.value; const proId = selectProfissional.value;
         selectHorario.innerHTML = '<option value="">4. Selecione o Horário...</option>';
-        
         if (!dateVal || !proId) { selectHorario.disabled = true; return; }
         selectHorario.disabled = false;
         
@@ -166,8 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const bookedTimes = apps.map(a => a.horario);
         
         const isToday = dateVal === todayStr;
-        const currentHour = now.getHours();
-        const currentMin = now.getMinutes();
+        const currentHour = now.getHours(); const currentMin = now.getMinutes();
 
         horariosBase.forEach(h => {
             let [hHora, hMin] = h.split(':').map(Number);
@@ -188,25 +255,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const novoApp = {
             id: Date.now(), userId: currentUser.id, clienteNome: nomeClienteFinal, 
-            telefone: inputTelefone.value, // Registra o telefone preenchido
-            servico: selectServico.value, profissionalId: selectProfissional.value,
+            telefone: inputTelefone.value, servico: selectServico.value, profissionalId: selectProfissional.value,
             profissionalNome: selectProfissional.options[selectProfissional.selectedIndex].text,
             data: inputData.value, horario: selectHorario.value, status: 'Confirmado'
         };
 
         const apps = DB.getAppointments(); apps.push(novoApp); DB.saveAppointments(apps);
         modal.classList.remove('active'); formAgendamento.reset();
-        alert('Agendamento realizado!'); renderAgendamentos();
+        alert('Agendamento realizado com sucesso!'); renderAgendamentos();
     });
 
     // ==========================================
-    // 5. RENDERIZANDO DADOS E EQUIPE
+    // 6. RENDERIZAÇÃO DO SISTEMA (MODO DEMONSTRAÇÃO)
     // ==========================================
     function renderAgendamentos() {
         const currentUser = DB.getCurrentUser();
         const todosApps = DB.getAppointments();
         
-        // Render Cliente (Aba Início)
+        // 1. TELA DO CLIENTE (Aba Início)
         const meusApps = todosApps.filter(app => app.clienteNome === currentUser.nome || app.userId === currentUser.id);
         const section = document.getElementById('lista-agendamentos-section');
         const container = document.getElementById('lista-agendamentos');
@@ -228,7 +294,8 @@ document.addEventListener('DOMContentLoaded', () => {
             `).join('');
         } else { section.style.display = 'none'; }
 
-        // Render Admin (Aba Admin)
+        // 2. TELA DO ADMIN (Aba Admin - Lista)
+        // MODO DEMO: Tudo liberado para qualquer usuário interagir
         const adminContainer = document.getElementById('lista-admin-agendamentos');
         if (adminContainer) {
             if (todosApps.length > 0) {
@@ -249,31 +316,40 @@ document.addEventListener('DOMContentLoaded', () => {
             } else { adminContainer.innerHTML = '<p style="text-align:center; color: var(--text-light); margin-top: 20px;">Nenhum agendamento no sistema.</p>'; }
         }
 
+        if (isCalendarView) { renderCalendar(); renderCalendarAppointments(); }
         renderEquipes();
     }
 
+    // ==========================================
+    // 7. GESTÃO E EDIÇÃO DE EQUIPE
+    // ==========================================
     function renderEquipes() {
         const pros = DB.getProfessionals();
         
-        // Equipe na visão do Admin
+        // MODO DEMO: Liberado para visualizar, editar e demitir
         const adminEquipe = document.getElementById('lista-admin-equipe');
         if(adminEquipe) {
             if(pros.length > 0) {
                 adminEquipe.innerHTML = pros.map(p => `
                     <div class="pro-card" style="margin-top: 10px; border: 1px solid rgba(0,0,0,0.1); box-shadow:none;">
                         <div class="pro-info" style="flex: 1;">
-                            <h4 style="color: var(--primary-color);">${p.nome}</h4>
-                            <p style="font-size: 0.75rem; color: var(--text-dark);"><strong>Faz:</strong> ${p.servicos.join(', ')}</p>
+                            <h4 style="color: var(--primary-color);">${p.nome} ${p.isGestor ? '<span style="font-size:0.7rem; background:#333; color:white; padding:2px 6px; border-radius:10px;">Gestor</span>' : ''}</h4>
+                            <p style="font-size: 0.75rem; color: var(--text-dark);"><strong>E-mail:</strong> ${p.email || 'N/A'}</p>
+                            <p style="font-size: 0.75rem; color: var(--text-light);"><strong>Faz:</strong> ${p.servicos.join(', ')}</p>
                         </div>
-                        <button onclick="removerProfissional(${p.id})" style="background:none; border:none; color: #cc0000; cursor:pointer;" data-tooltip="Demitir Profissional">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
+                        <div style="display:flex; gap:10px;">
+                            <button onclick="editarProfissional(${p.id})" style="background:none; border:none; color: var(--primary-color); cursor:pointer;" data-tooltip="Editar">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                            <button onclick="removerProfissional(${p.id})" style="background:none; border:none; color: #cc0000; cursor:pointer;" data-tooltip="Demitir">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
                     </div>
                 `).join('');
             } else { adminEquipe.innerHTML = '<p style="text-align:center; color: var(--text-light); margin-top: 20px;">Nenhum profissional cadastrado.</p>'; }
         }
 
-        // Equipe na visão Pública (Aba Equipe)
         const publicEquipe = document.getElementById('lista-profissionais');
         if(publicEquipe) {
             if(pros.length > 0) {
@@ -286,32 +362,70 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                 `).join('');
-            } else {
-                publicEquipe.innerHTML = '<p style="text-align:center; color: var(--text-light);">A equipe está sendo formada.</p>';
-            }
+            } else { publicEquipe.innerHTML = '<p style="text-align:center; color: var(--text-light);">A equipe está sendo formada.</p>'; }
         }
     }
 
-    // Formulário do Admin para adicionar Profissionais
     const formAdminPro = document.getElementById('form-admin-pro');
     if (formAdminPro) {
         formAdminPro.addEventListener('submit', (e) => {
             e.preventDefault();
+            const idEdit = document.getElementById('edit-pro-id').value;
             const nome = document.getElementById('pro-nome').value;
+            const email = document.getElementById('pro-email') ? document.getElementById('pro-email').value : '';
+            const isGestor = document.getElementById('pro-gestor') ? document.getElementById('pro-gestor').checked : false;
+            
             const checkboxes = document.querySelectorAll('input[name="pro-service"]:checked');
             let servicosSelecionados = [];
             checkboxes.forEach((cb) => servicosSelecionados.push(cb.value));
 
             if(servicosSelecionados.length === 0) return alert('Selecione pelo menos um serviço!');
 
-            const pros = DB.getProfessionals();
-            pros.push({ id: Date.now(), nome: nome, servicos: servicosSelecionados });
+            let pros = DB.getProfessionals();
+            
+            if(idEdit) {
+                const index = pros.findIndex(p => p.id == idEdit);
+                if(index > -1) {
+                    pros[index] = { ...pros[index], nome, email, isGestor, servicos: servicosSelecionados };
+                    alert('Profissional atualizado com sucesso!');
+                }
+            } else {
+                pros.push({ id: Date.now(), nome, email, isGestor, servicos: servicosSelecionados });
+                alert('Profissional cadastrado com sucesso!');
+            }
+            
             DB.saveProfessionals(pros);
-
-            formAdminPro.reset();
-            alert('Profissional cadastrado com sucesso!');
-            renderEquipes();
+            resetFormPro();
+            renderAgendamentos();
         });
+    }
+
+    window.editarProfissional = function(id) {
+        const pro = DB.getProfessionals().find(p => p.id == id);
+        if(!pro) return;
+        
+        document.getElementById('edit-pro-id').value = pro.id;
+        document.getElementById('pro-nome').value = pro.nome;
+        if(document.getElementById('pro-email')) document.getElementById('pro-email').value = pro.email || '';
+        if(document.getElementById('pro-gestor')) document.getElementById('pro-gestor').checked = !!pro.isGestor;
+        
+        document.querySelectorAll('input[name="pro-service"]').forEach(cb => {
+            cb.checked = pro.servicos.includes(cb.value);
+        });
+
+        document.getElementById('btn-submit-pro').textContent = 'Salvar Alterações';
+        const btnCancel = document.getElementById('btn-cancel-edit');
+        if(btnCancel) btnCancel.classList.remove('hidden');
+        document.getElementById('form-admin-pro').scrollIntoView({behavior: 'smooth'});
+    };
+
+    document.getElementById('btn-cancel-edit')?.addEventListener('click', resetFormPro);
+    function resetFormPro() {
+        if(formAdminPro) formAdminPro.reset();
+        document.getElementById('edit-pro-id').value = '';
+        document.getElementById('btn-submit-pro').textContent = 'Cadastrar na Equipe';
+        const btnCancel = document.getElementById('btn-cancel-edit');
+        if(btnCancel) btnCancel.classList.add('hidden');
     }
 
     window.cancelarAgendamento = function(id) {
@@ -322,14 +436,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.removerProfissional = function(id) {
-        if(confirm('Deseja excluir este profissional da equipe? Isso não afetará os agendamentos antigos dele.')) {
+        if(confirm('Deseja excluir este profissional da equipe?')) {
             DB.saveProfessionals(DB.getProfessionals().filter(p => p.id !== id));
-            renderEquipes();
+            renderAgendamentos();
         }
     };
 
     // ==========================================
-    // 6. CONTROLE DO MODAL DE VÍDEO
+    // 8. CONTROLE DO MODAL DE VÍDEO
     // ==========================================
     const modalVideo = document.getElementById('modal-video');
     const videoFrame = document.getElementById('video-frame');
@@ -338,7 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('click', (e) => { if (e.target === modalVideo) { modalVideo.classList.remove('active'); videoFrame.src = ""; } });
 
     // ==========================================
-    // 7. INICIALIZAÇÃO
+    // 9. INICIALIZAÇÃO E AVISO DE DEMO
     // ==========================================
     function checkSession() { 
         if (DB.getCurrentUser()) { initApp(); } else { views.app.classList.add('hidden'); views.auth.classList.remove('hidden'); } 
@@ -351,6 +465,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedColor = localStorage.getItem('eb_color') || 'beige';
         mudarCor(savedColor);
         renderAgendamentos(); 
+        
+        // Simular o clique no "Início" para garantir que a tela carregue sempre no Home
+        document.querySelector('.nav-btn[data-target="tab-inicio"]').click();
+
+        // Pop-up explicativo da Demonstração (Aparece 1x por sessão)
+        if (!sessionStorage.getItem('demo_aviso')) {
+            setTimeout(() => {
+                alert("Bem-vindo ao Molde de Demonstração!\n\nPara facilitar seus testes, a aba 'Admin' está liberada para você explorar tudo:\n✓ Agendar como Cliente\n✓ Gerenciar a Equipe\n✓ Visualizar o Calendário do Gestor\n\n(No sistema real para o seu cliente final, apenas contas da gerência enxergam a aba Admin).");
+                sessionStorage.setItem('demo_aviso', 'true');
+            }, 500); // Aguarda meio segundo após a tela carregar
+        }
     } 
 
     checkSession();
