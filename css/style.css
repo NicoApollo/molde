@@ -636,6 +636,18 @@ body.color-dark .cal-day, body.color-purple .cal-day {
     gap: 12px;
 }
 
+.service-price {
+    background-color: var(--body-bg); /* Usa o fundo do site para destacar a tag */
+    color: var(--primary-color);
+    font-weight: 800;
+    font-size: 0.95rem;
+    padding: 8px 12px;
+    border-radius: 12px;
+    white-space: nowrap; /* Impede o R$ de ficar numa linha e o número na outra */
+    margin-left: 10px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
 .review-header img {
     width: 45px;
     height: 45px;
